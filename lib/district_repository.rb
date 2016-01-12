@@ -1,18 +1,28 @@
 require 'csv'
 require 'pry'
+require_relative 'district'
 
 class DistrictRepository
    attr_reader :districts
 
   def initialize
     @districts = []
+
+    runner
   end
 
-  def find_by_name
+  def find_by_name(district)
+    found = []
+    @districts.each do |d|
+      if d == district
+        found << District.new({:name => district})
+      end
+    end
+    found[0]
   end
 
   def find_all_matching(district)
-    @districts.include?district
+
   end
 
   # def load_data()
@@ -21,7 +31,7 @@ class DistrictRepository
   def parser(contents)
      contents.each do |row|
        districts = row[:location]
-       @districts << districts
+       @districts << districts.upcase
      end
    end
 
@@ -40,4 +50,4 @@ class DistrictRepository
   end
 end
 
- #DistrictRepository.new.runner
+#DistrictRepository.new.find_by_name('ACADEMY 20')
