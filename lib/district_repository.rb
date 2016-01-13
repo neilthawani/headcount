@@ -12,20 +12,15 @@ class DistrictRepository
 
   def find_by_name(district)
     districts.find do |key, value|
-      district.upcase == value.name.upcase
+      district.strip.upcase == value.name.upcase
     end
   end
 
   def find_all_matching(name_fragment)
-    matching = []
-    districts.each do |key, value|
-      if
-        value.name.upcase.include?(name_fragment.upcase)
-        matching << value.name
-      end
-    end
-    matching
+    matching = districts.select {|key,value| value.name.upcase.include?(name_fragment.upcase)}
+    hashes = matching.values
   end
+
 
   def parser(contents)
      contents.each do |row|
@@ -35,7 +30,7 @@ class DistrictRepository
    end
 
   def load_data(district_data)
-     kindergarten_csv = district_data[:enrollment][:kindergarten]
+     kindergarten_csv = district_data.fetch(:enrollment).fetch (:kindergarten)
      contents = CSV.open kindergarten_csv, headers: true, header_converters: :symbol
      parser(contents)
   end

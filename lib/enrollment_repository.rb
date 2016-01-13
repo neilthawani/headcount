@@ -13,7 +13,7 @@ class EnrollmentRepository
 
   def parser(contents)
      contents.each do |row|
-       enrollment = {row[:timeframe].to_i => row[:data].to_f}
+       enrollment = row[:timeframe].to_i
        district = row[:location]
        enrollments[enrollment.to_sym] = Enrollment.new({:name => district, :kindergarten_participation => enrollment})
       puts enrollment

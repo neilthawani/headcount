@@ -39,6 +39,10 @@ class DistrictRepositoryTest < Minitest::Test
 
   def test_does_it_capitalize
    assert_equal 'ACADEMY 20', @dr.find_by_name("academy 20")[1].name
+  end 
+
+  def test_can_it_find_a_name_with_white_space
+    assert_equal 'ACADEMY 20', @dr.find_by_name(" academy 20 ")[1].name
   end
 
   def test_does_find_by_name_return_with_nil
@@ -54,15 +58,21 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_does_find_all_matching_return_all_cases
-     assert_equal ["AGATE 300"], @dr.find_all_matching("AGATE 300")
+    matched_objects = @dr.find_all_matching("AGATE 300")
+    matched_names = matched_objects.map {|object| object.name}
+    assert_equal ["AGATE 300"], matched_names
   end
 
   def test_does_find_all_matching_with_name_fragments_return_values
-     assert_equal ["AGATE 300"], @dr.find_all_matching("AGA")
+    matched_objects = @dr.find_all_matching("AGA")
+    matched_names = matched_objects.map {|object| object.name}
+    assert_equal ["AGATE 300"], matched_names
   end
 
   def test_does_find_all_matching_work_case_insensitive
-     assert_equal ["AGATE 300"], @dr.find_all_matching("aga")
+     matched_objects = @dr.find_all_matching("aga")
+     matched_names = matched_objects.map {|object| object.name}
+     assert_equal ["AGATE 300"], matched_names
   end
 
   def test_does_find_all_matching_work_with_no_input
@@ -70,6 +80,8 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_does_find_all_matching_work_with_case_insensitivity
-     assert_equal ["Colorado", "COLORADO SPRINGS 11"], @dr.find_all_matching("col")
+    matched_objects = @dr.find_all_matching("col")
+    matched_names = matched_objects.map {|object| object.name}
+     assert_equal ["Colorado", "COLORADO SPRINGS 11"], matched_names
   end
 end
