@@ -10,7 +10,6 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_does_it_have_a_class
-    @dr
     assert DistrictRepository.class
   end
 
@@ -27,14 +26,42 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_is_there_a_find_all_matching_method
-    @dr
     assert @dr.respond_to?(:find_all_matching)
   end
 
-  def test_find_by_name
-    assert_equal 'test', @dr.find_by_name("ASPEN 1")
+  def test_find_by_name_returns_district
+    assert_equal "ACADEMY 20", @dr.find_by_name("ACADEMY 20")[1].name
   end
 
+  def test_find_by_name_works_with_different_district
+    assert_equal "ADAMS COUNTY 14", @dr.find_by_name("ADAMS COUNTY 14")[1].name
+  end
 
+  def test_does_it_capitalize
+   assert_equal 'ACADEMY 20', @dr.find_by_name("academy 20")[1].name
+  end
 
+  def test_does_find_by_name_return_with_nil
+   assert_equal nil, @dr.find_by_name("Zombocom")
+  end
+
+  def test_does_find_by_name_work_with_special_characters
+    assert_equal nil, @dr.find_by_name("zom--bo-*com")
+  end
+
+  def test_does_find_all_matching_return_all_cases
+     assert_equal ["AGATE 300"], @dr.find_all_matching("AGATE 300")
+  end
+
+  def test_does_find_all_matching_with_name_fragments_return_values
+     assert_equal ["AGATE 300"], @dr.find_all_matching("AGA")
+  end
+
+  def test_does_find_all_matching_work_case_insensitive
+     assert_equal ["AGATE 300"], @dr.find_all_matching("aga")
+  end
+
+  def test_does_find_all_matching_work_with_case_insensitivity
+     assert_equal ["Colorado", "COLORADO SPRINGS 11"], @dr.find_all_matching("col")
+  end
 end

@@ -3,35 +3,34 @@ require 'pry'
 require_relative 'district'
 
 class DistrictRepository
-   attr_reader :districts
+   attr_reader :districts, :district_key
 
   def initialize
-    @districts = []
-
+    @districts = {}
     runner
   end
 
   def find_by_name(district)
-    found = []
-    @districts.each do |d|
-      if d == district
-        found << District.new({:name => district})
+    districts.find do |key, value|
+      district.upcase == value.name.upcase
+    end
+  end
+
+  def find_all_matching(name_fragment)
+    matching = []
+    districts.each do |key, value|
+      if
+        value.name.upcase.include?(name_fragment.upcase)
+        matching << value.name
       end
     end
-    found[0]
+    matching
   end
 
-  def find_all_matching(district)
-
-  end
-
-  # def load_data()
-    # contents = data[:enrollment][:kindergarten]
-    # puts contents # =>
   def parser(contents)
      contents.each do |row|
-       districts = row[:location]
-       @districts << districts.upcase
+       district = row[:location]
+       districts[district.to_sym] = District.new({:name => district})
      end
    end
 
@@ -49,5 +48,3 @@ class DistrictRepository
     })
   end
 end
-
-#DistrictRepository.new.find_by_name('ACADEMY 20')
