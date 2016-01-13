@@ -45,6 +45,10 @@ class DistrictRepositoryTest < Minitest::Test
    assert_equal nil, @dr.find_by_name("Zombocom")
   end
 
+  def test_does_find_by_name_work_with_no_input
+    assert_equal nil, @dr.find_by_name("")
+  end
+
   def test_does_find_by_name_work_with_special_characters
     assert_equal nil, @dr.find_by_name("zom--bo-*com")
   end
@@ -59,6 +63,10 @@ class DistrictRepositoryTest < Minitest::Test
 
   def test_does_find_all_matching_work_case_insensitive
      assert_equal ["AGATE 300"], @dr.find_all_matching("aga")
+  end
+
+  def test_does_find_all_matching_work_with_no_input
+     assert_equal [], @dr.find_all_matching("  ")
   end
 
   def test_does_find_all_matching_work_with_case_insensitivity
