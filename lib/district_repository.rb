@@ -31,7 +31,7 @@ class DistrictRepository
   end
 
   def load_data(district_data)
-    kindergarten_csv = district_data.fetch(:enrollment).fetch (:kindergarten)
+    kindergarten_csv = district_data.fetch(:enrollment).fetch(:kindergarten)
     contents = CSV.open kindergarten_csv, headers: true,
                                           header_converters: :symbol
     parser(contents)

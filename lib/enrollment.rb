@@ -1,16 +1,16 @@
 class Enrollment
+  attr_reader :name, :kindergarten_participation
+
   def initialize(enrollment_data)
-    @enrollment_data = enrollment_data # WIP
+    @name = enrollment_data[:name]
+    @kindergarten_participation = enrollment_data[:kindergarten_participation]
   end
 
-  e = Enrollment.new(
-    name: "ACADEMY 20",
-    kindergarten_participation: {
-      2010 => 0.3915,
-      2011 => 0.35356,
-      2012 => 0.2677,
-    },
-  )
-
-  e # WIP
+  def kindergarten_participation_by_year(year = nil)
+    if year
+      kindergarten_participation[year]
+    else
+      kindergarten_participation
+    end
+  end
 end
