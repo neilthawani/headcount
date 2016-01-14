@@ -67,4 +67,28 @@ class EnrollmentRepositoryTest < Minitest::Test
 
     assert_equal("Colorado", enrollment.name)
   end
+
+  def test_it_returns_nil_for_empty_input
+    er = EnrollmentRepository.new
+    er.load_data({
+      enrollment: {
+        kindergarten: "./fixtures/Kindergartners in full-day program.csv"
+      }
+    })
+    enrollment = er.find_by_name("")
+
+    assert_equal(nil, enrollment)
+  end
+
+  def test_it_returns_nil_with_random_special_characters
+    er = EnrollmentRepository.new
+    er.load_data({
+      enrollment: {
+        kindergarten: "./fixtures/Kindergartners in full-day program.csv"
+      }
+    })
+    enrollment = er.find_by_name("Colo*!^*@#rado")
+
+    assert_equal(nil, enrollment)
+  end
 end
