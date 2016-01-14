@@ -40,7 +40,7 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert_equal("ACADEMY 20", enrollment.name)
   end
 
-  def test_it_finds_participation_data
+  def test_it_finds_truncated_participation_data
     er = EnrollmentRepository.new
     er.load_data({
       enrollment: {
@@ -49,10 +49,10 @@ class EnrollmentRepositoryTest < Minitest::Test
     })
     enrollment = er.find_by_name("ACADEMY 20")
 
-    assert_equal({ "2007"=>"0.39159", "2006"=>"0.35364", "2005"=>"0.26709",
-                   "2004"=>"0.30201", "2008"=>"0.38456", "2009"=>"0.39",
-                   "2010"=>"0.43628", "2011"=>"0.489", "2012"=>"0.47883",
-                   "2013"=>"0.48774", "2014"=>"0.49022" },
+    assert_equal({ "2007"=>"0.391", "2006"=>"0.353", "2005"=>"0.267",
+                   "2004"=>"0.302", "2008"=>"0.384", "2009"=>"0.39",
+                   "2010"=>"0.436", "2011"=>"0.489", "2012"=>"0.478",
+                   "2013"=>"0.487", "2014"=>"0.490" },
                  enrollment.kindergarten_participation)
   end
 end
