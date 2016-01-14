@@ -38,10 +38,7 @@ class DistrictRepository
   end
 
   def runner
-    load_data(
-      enrollment: {
-        kindergarten: "../data/Kindergartners in full-day program.csv"
-      },
-    )
+    path = File.expand_path("../data/Kindergartners in full-day program.csv", __dir__)
+    load_data enrollment: { kindergarten: path }
   end
 end

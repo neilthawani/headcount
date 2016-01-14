@@ -1,6 +1,6 @@
 require "minitest/autorun"
 require "minitest/pride"
-require "../lib/district"
+require "district"
 
 class DistrictTest < Minitest::Test
   def test_can_we_pass_in_a_name

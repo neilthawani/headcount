@@ -1,6 +1,6 @@
 require "minitest/autorun"
 require "minitest/pride"
-require "../lib/enrollment"
+require "enrollment"
 
 class EnrollmentTest < Minitest::Test
   def test_we_can_create_an_instance
