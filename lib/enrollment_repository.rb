@@ -13,7 +13,7 @@ class EnrollmentRepository
     collection = Hash.new
     CSV.foreach(data[:enrollment][:kindergarten],
                 headers: true, header_converters: :symbol) do |row|
-      collection[row[:location]] = Hash.new
+      collection[row[:location]] ||= Hash.new
       collection[row[:location]][row[:timeframe]] = row[:data]
     end
     collection.map do |location, data|
