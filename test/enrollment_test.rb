@@ -14,4 +14,18 @@ class EnrollmentTest < Minitest::Test
     assert_equal({ 2010 => 0.3915, 2011 => 0.35356, 2012 => 0.1234 },
       enrollment.kindergarten_participation)
   end
+
+  def test_it_can_get_kindergarten_participation_by_year
+    enrollment = Enrollment.new(name: "ACADEMY 20",
+                                kindergarten_participation: {
+                                  2010 => 0.3915,
+                                  2011 => 0.35356,
+                                  2012 => 0.1234 }
+                                )
+    assert_equal({
+      2010 => 0.3915,
+      2011 => 0.35356,
+      2012 => 0.1234
+    }, enrollment.kindergarten_participation_by_year)
+  end
 end
