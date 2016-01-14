@@ -6,5 +6,4 @@ class District
   end
 end
 
-d = District.new({:name => 'ACADEMY 20'}) # => #<District:0x007fe191022db0 @name="ACADEMY">
- 
+District.new(name: "ACADEMY 20")
