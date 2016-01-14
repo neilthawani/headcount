@@ -18,5 +18,5 @@ namespace :sanitation do
   end
 
   desc "Check both line length and method length"
-  task :all => [:lines, :methods]
+  task all: [:lines, :methods]
 end
