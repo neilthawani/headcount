@@ -1,0 +1,61 @@
+Tests that load CSV data, which is better?
+  Style 1:
+    ```ruby
+    def setup
+      @dr = DistrictRepository.new
+    end
+
+    def test_find_by_name_returns_district
+      assert_equal "ACADEMY 20", @dr.find_by_name("ACADEMY 20")[1].name
+    end
+    ```
+
+  Style 2:
+    ```ruby
+    def test_it_can_find_an_enrollment_object
+      er = EnrollmentRepository.new
+      er.load_data({
+        enrollment: {
+          kindergarten: "./fixtures/Kindergartners in full-day program.csv"
+        }
+      })
+      enrollment = er.find_by_name("ACADEMY 20")
+      assert_kind_of(Enrollment, enrollment)
+    end
+    ```
+
+  Immediate question for style 1:
+    Where did it get the data from,
+    and can I change that? eg for fixtures
+
+  From this, we can determine that the second one is better
+    And this is a specific example of a general truth:
+    Design is usally better if you move integration points
+    earlier in the callstack (here, the integration between
+    the DistrictRepository data and the CSV location of the data)
+
+  An example of taking this further
+    would be to move the integration point of the persistence format (CSV)
+    up higher, so that you could persist in other formats (JSON, XML, whatever)
+
+
+Require:
+  Don't start with ".." or ".", if you find yourself using that,
+  there's a waypoint about it: https://github.com/turingschool/waypoints/blob/master/waypoints/require.md
+
+
+Relative filepaths of the CSV data:
+  You can use the same approach from editing the load path
+  to make the path be the same from any directory.
+
+  ```ruby
+  def fixture_path
+    File.expand_path("fixtures/Kindergartners in full-day program.csv", __dir__)
+  end
+
+  def test_something
+    er = EnrollmentRepository.new
+    er.load_data(enrollment: { kindergarten: fixture_path })
+    # ...
+  end
+  ```

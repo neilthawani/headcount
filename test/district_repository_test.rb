@@ -1,6 +1,6 @@
 require "minitest/autorun"
 require "minitest/pride"
-require "district_repository"
+require_relative "./../lib/district_repository"
 require "pry"
 
 class DistrictRepositoryTest < Minitest::Test
@@ -28,20 +28,21 @@ class DistrictRepositoryTest < Minitest::Test
     assert @dr.respond_to?(:find_all_matching)
   end
 
+  #meta current: true
   def test_find_by_name_returns_district
-    assert_equal "ACADEMY 20", @dr.find_by_name("ACADEMY 20")[1].name
+    assert_equal "ACADEMY 20", @dr.find_by_name("ACADEMY 20").name
   end
 
   def test_find_by_name_works_with_different_district
-    assert_equal "ADAMS COUNTY 14", @dr.find_by_name("ADAMS COUNTY 14")[1].name
+    assert_equal "ADAMS COUNTY 14", @dr.find_by_name("ADAMS COUNTY 14").name
   end
 
   def test_does_it_capitalize
-    assert_equal "ACADEMY 20", @dr.find_by_name("academy 20")[1].name
+    assert_equal "ACADEMY 20", @dr.find_by_name("academy 20").name
   end
 
   def test_can_it_find_a_name_with_white_space
-    assert_equal "ACADEMY 20", @dr.find_by_name(" academy 20 ")[1].name
+    assert_equal "ACADEMY 20", @dr.find_by_name(" academy 20 ").name
   end
 
   def test_does_find_by_name_return_with_nil
