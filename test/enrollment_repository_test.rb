@@ -55,4 +55,16 @@ class EnrollmentRepositoryTest < Minitest::Test
                    "2013"=>"0.487", "2014"=>"0.490" },
                  enrollment.kindergarten_participation)
   end
+
+  def test_it_is_not_case_sensitive_for_search
+    er = EnrollmentRepository.new
+    er.load_data({
+      enrollment: {
+        kindergarten: "./fixtures/Kindergartners in full-day program.csv"
+      }
+    })
+    enrollment = er.find_by_name("coloRADo")
+
+    assert_equal("Colorado", enrollment.name)
+  end
 end

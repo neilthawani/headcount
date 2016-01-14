@@ -24,7 +24,7 @@ class EnrollmentRepository
 
   def find_by_name(name)
     self.enrollments.find do |element|
-      element.name == name
+      element.name.downcase == name.downcase
     end
   end
 end
