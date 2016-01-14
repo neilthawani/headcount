@@ -17,14 +17,14 @@ class EnrollmentRepository
       collection[row[:location]][row[:timeframe]] = row[:data][0..4]
     end
     collection.map do |location, data|
-      self.enrollments << Enrollment.new(name: location,
+      enrollments << Enrollment.new(name: location,
                                          kindergarten_participation: data)
     end
   end
 
   def find_by_name(name)
-    self.enrollments.find do |element|
-      element.name.downcase == name.downcase
+    enrollments.detect do |element|
+    element.name.downcase == name.downcase
     end
   end
 end

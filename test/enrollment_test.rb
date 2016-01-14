@@ -8,11 +8,11 @@ class EnrollmentTest < Minitest::Test
                                 kindergarten_participation: {
                                   2010 => 0.3915,
                                   2011 => 0.35356,
-                                  2012 => 0.1234 }
-                                )
+                                  2012 => 0.1234 },
+                               )
     assert_equal "ACADEMY 20", enrollment.name
     assert_equal({ 2010 => 0.3915, 2011 => 0.35356, 2012 => 0.1234 },
-      enrollment.kindergarten_participation)
+    enrollment.kindergarten_participation)
   end
 
   def test_it_can_get_kindergarten_participation_by_year
@@ -20,13 +20,13 @@ class EnrollmentTest < Minitest::Test
                                 kindergarten_participation: {
                                   2010 => 0.3915,
                                   2011 => 0.35356,
-                                  2012 => 0.1234 }
-                                )
+                                  2012 => 0.1234            },
+                               )
     assert_equal({
       2010 => 0.3915,
       2011 => 0.35356,
       2012 => 0.1234
-    }, enrollment.kindergarten_participation_by_year)
+                 }, enrollment.kindergarten_participation_by_year)
   end
 
   def test_it_can_get_kindergarten_participation_by_year_by_year
@@ -34,8 +34,8 @@ class EnrollmentTest < Minitest::Test
                                 kindergarten_participation: {
                                   2010 => 0.3915,
                                   2011 => 0.35356,
-                                  2012 => 0.1234 }
-                                )
+                                  2012 => 0.1234 },
+                               )
     assert_equal(0.3915, enrollment.kindergarten_participation_by_year(2010))
   end
 
@@ -44,8 +44,8 @@ class EnrollmentTest < Minitest::Test
                                 kindergarten_participation: {
                                   2010 => 0.3915,
                                   2011 => 0.35356,
-                                  2012 => 0.1234 }
-                                )
+                                  2012 => 0.1234 },
+                               )
     assert_equal(nil, enrollment.kindergarten_participation_by_year(2009))
   end
 end
