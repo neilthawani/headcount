@@ -8,6 +8,16 @@ class DistrictRepositoryTest < Minitest::Test
     @dr = DistrictRepository.new
   end
 
+  def test_loading_and_finding_districts
+     @dr = DistrictRepository.new
+
+     district = @dr.find_by_name("ACADEMY 20")
+
+     assert_equal "ACADEMY 20", district.name
+
+     assert_equal 7, @dr.find_all_matching("WE").count
+   end
+
   def test_does_it_have_a_class
     assert DistrictRepository.class
   end
