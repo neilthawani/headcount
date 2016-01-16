@@ -21,7 +21,7 @@ class HeadcountAnalyst
     district1 = dr.find_by_name(district_1).enrollment.kindergarten_participation
     district2 = dr.find_by_name(district_2[:against]).enrollment.kindergarten_participation
     district1.each do |year, participation|
-      district_trend[year] = (district1[year].to_f/ district2[year].to_f).round(3)
+      district_trend[year.to_i] = (district1[year].to_f/ district2[year].to_f).round(3)
     end
     district_trend
   end
