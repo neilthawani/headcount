@@ -19,7 +19,7 @@ class EnrollmentRepositoryTest < Minitest::Test
   def test_it_can_find_an_enrollment_object
     assert_kind_of Enrollment, er.find_by_name("ACADEMY 20")
   end
-
+ 
   def test_it_does_not_generate_new_objects_using_find
     enrollment = er.find_by_name("ACADEMY 20")
     assert_equal(er.find_by_name("ACADEMY 20").object_id, enrollment.object_id)

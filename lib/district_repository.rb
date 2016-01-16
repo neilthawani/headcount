@@ -3,11 +3,13 @@ require "pry"
 require_relative "district"
 
 class DistrictRepository
-  attr_reader :districts, :district_key
+  attr_reader :districts, :district_key, :er
 
   def initialize
     @districts = {}
     runner
+    make_a_enrollment_repo
+    send_enrollments_out
   end
 
   def find_by_name(name)
@@ -21,7 +23,7 @@ class DistrictRepository
     matching = districts.select do |_key, value|
       value.name.upcase.include?(name_fragment.upcase)
     end
-    matching.valuesk
+    matching.values
   end
 
   def parser(contents)
@@ -29,6 +31,29 @@ class DistrictRepository
       district = row[:location]
       districts[district.to_sym] = District.new(name: district)
     end
+
+  end
+
+
+# oh wow a random new Enrollment repo object .... interesting
+#hey all districts
+
+  def send_enrollments_out
+    # hey districts each of you line up and come here
+    districts.each do |district_name, district|
+      # her district what's your name?
+      #hey enrollment REpo, find me the Enrollment with this name
+      enrollment = er.find_by_name(district.name)
+
+    # I'm going to give you your enrollment object, and you have to keep it
+      district.get_enrollment(enrollment)
+    end
+  end
+
+
+  def make_a_enrollment_repo
+    @er = EnrollmentRepository.new
+    er.load_data(enrollment: { kindergarten: "./test/fixtures/Kindergartners in full-day program.csv" })
   end
 
   def load_data(district_data)

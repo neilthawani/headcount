@@ -1,6 +1,7 @@
 require "csv"
 require "pry"
 require_relative "enrollment"
+require_relative "district"
 
 class EnrollmentRepository
   attr_accessor :enrollments
