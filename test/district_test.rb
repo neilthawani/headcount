@@ -8,3 +8,19 @@ class DistrictTest < Minitest::Test
     assert_equal "ACADEMY 20", d.name
   end
 end
+
+
+
+
+
+
+
+
+
+
+#4:30 erenna
+#deb + adrienne
+#deb work on assessment
+#sunny work on assessment
+#deb + allan whiteboard
+#sunny work on portfolio

@@ -11,11 +11,12 @@ class HeadcountAnalyst
   end
 
 
-  def kindergarten_participation_rate_variation(name, comparison)
-    district =  dr.find_by_name(name)
-    district.kindergarten_participation
+  def kindergarten_participation_rate_variation(district_1, district_2)
+    district1 =  dr.find_by_name(district_1).calculate_kinder_average
 
-    # require "pry"; binding.pry
+    district2 =  dr.find_by_name(district_2[:against]).calculate_kinder_average
+    (district1/district2).round(3)
+
   end
 end
 
