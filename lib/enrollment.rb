@@ -1,3 +1,4 @@
+require 'pry'
 class Enrollment
   attr_reader :name, :kindergarten_participation
 
@@ -8,7 +9,7 @@ class Enrollment
 
   def kindergarten_participation_in_year(year = nil)
     if year
-      kindergarten_participation[year.to_s].to_f 
+      kindergarten_participation[year.to_s].to_f
     else
       kindergarten_participation
     end

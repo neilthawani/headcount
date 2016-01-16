@@ -43,5 +43,11 @@ class HeadCountAnalystTest < Minitest::Test
     assert_equal 0.573, ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'ADAMS COUNTY 14')
   end
 
+  def test_if_kidergarten_participation_rate_trends_against_state_average
 
+    dr = DistrictRepository.new
+    ha = HeadcountAnalyst.new(dr)
+
+    assert_equal [{2009 => 0.652, 2010 => 0.681, 2011 => 0.728}], ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
+  end
 end

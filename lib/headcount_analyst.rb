@@ -1,5 +1,6 @@
 require_relative 'district_repository'
 require_relative 'enrollment'
+require 'pry'
 
 class HeadcountAnalyst
   def initialize(dr)
@@ -11,13 +12,17 @@ class HeadcountAnalyst
 
   def kindergarten_participation_rate_variation(district_1, district_2)
     district1 =  dr.find_by_name(district_1).calculate_kinder_average
-
     district2 =  dr.find_by_name(district_2[:against]).calculate_kinder_average
     (district1/district2).round(3)
   end
-end
 
-#I want to find the district academy 20
-#I then want to find the district colorado
-#I then want to compare their enrollment rates
-#with that data I want to return the district average divided by states average(all years)
+  def kindergarten_participation_rate_variation_trend(district_1, district_2)
+    district_trend = Hash.new
+    district1 = dr.find_by_name(district_1).enrollment.kindergarten_participation
+    district2 = dr.find_by_name(district_2[:against]).enrollment.kindergarten_participation
+    district1.each do |year, participation|
+      district_trend[year] = (district1[year].to_f/ district2[year].to_f).round(3)
+    end
+    district_trend
+  end
+end
