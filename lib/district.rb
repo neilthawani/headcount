@@ -23,7 +23,6 @@ class District
   end
 end
 
-
 District.new(name: "ACADEMY 20")
 
 

@@ -32,12 +32,7 @@ class DistrictRepository
       district = row[:location]
       districts[district.to_sym] = District.new(name: district)
     end
-
   end
-
-
-# oh wow a random new Enrollment repo object .... interesting
-#hey all districts
 
   def send_enrollments_out
     # hey districts each of you line up and come here
@@ -45,12 +40,10 @@ class DistrictRepository
       # her district what's your name?
       #hey enrollment REpo, find me the Enrollment with this name
       enrollment = er.find_by_name(district.name)
-
     # I'm going to give you your enrollment object, and you have to keep it
       district.get_enrollment(enrollment)
     end
   end
-
 
   def make_a_enrollment_repo
     @er = EnrollmentRepository.new
