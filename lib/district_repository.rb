@@ -1,6 +1,7 @@
 require "csv"
 require "pry"
 require_relative "district"
+require_relative "enrollment_repository"
 
 class DistrictRepository
   attr_reader :districts, :district_key, :er
