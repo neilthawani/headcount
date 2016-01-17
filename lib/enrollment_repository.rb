@@ -8,6 +8,7 @@ class EnrollmentRepository
 
   def initialize
     @enrollments = []
+
   end
 
   def load_data(data)
@@ -15,7 +16,7 @@ class EnrollmentRepository
     CSV.foreach(data[:enrollment][:kindergarten],
                 headers: true, header_converters: :symbol) do |row|
       collection[row[:location]] ||= Hash.new
-      collection[row[:location]][row[:timeframe]] = row[:data][0..4]
+      collection[row[:location]][row[:timeframe].to_i] = row[:data][0..4].to_f
     end
     collection.map do |location, data|
       enrollments << Enrollment.new(name: location,

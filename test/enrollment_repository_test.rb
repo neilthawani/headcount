@@ -8,6 +8,10 @@ class EnrollmentRepositoryTest < Minitest::Test
     File.expand_path("fixtures/Kindergartners in full-day program.csv", __dir__)
   end
 
+  def fixture_path_high_school
+    File.expand_path("fixtures/High school graduation rates.csv", __dir__)
+  end
+
   def er
     @er ||= begin
       er = EnrollmentRepository.new
@@ -16,10 +20,18 @@ class EnrollmentRepositoryTest < Minitest::Test
     end
   end
 
+  def er_high_school
+    @er_high_school ||= begin
+      er_high_school = EnrollmentRepository.new
+      er_high_school.load_data(enrollment: { high_school_graduation_rates: fixture_path_high_school })
+      er_high_school
+    end
+  end
+
   def test_it_can_find_an_enrollment_object
     assert_kind_of Enrollment, er.find_by_name("ACADEMY 20")
   end
- 
+
   def test_it_does_not_generate_new_objects_using_find
     enrollment = er.find_by_name("ACADEMY 20")
     assert_equal(er.find_by_name("ACADEMY 20").object_id, enrollment.object_id)
@@ -32,10 +44,10 @@ class EnrollmentRepositoryTest < Minitest::Test
 
   def test_it_finds_truncated_participation_data
     enrollment = er.find_by_name("ACADEMY 20")
-    assert_equal({ "2007" => "0.391", "2006" => "0.353", "2005" => "0.267",
-                   "2004" => "0.302", "2008" => "0.384", "2009" => "0.39",
-                   "2010" => "0.436", "2011" => "0.489", "2012" => "0.478",
-                   "2013" => "0.487", "2014" => "0.490" },
+    assert_equal({ 2007 => 0.391, 2006 => 0.353, 2005 => 0.267,
+                   2004 => 0.302, 2008 => 0.384, 2009 => 0.39,
+                   2010 => 0.436, 2011 => 0.489, 2012 => 0.478,
+                   2013 => 0.487, 2014 => 0.490 },
                  enrollment.kindergarten_participation)
   end
 
@@ -53,4 +65,14 @@ class EnrollmentRepositoryTest < Minitest::Test
     enrollment = er.find_by_name("Colo*!^*@#rado")
     assert_equal(nil, enrollment)
   end
+
+  def test_district_repo_can_load_data_from_two_sources
+    skip
+    enrollment_kinder = er.find_by_name("Colorado")
+    enrollment_high = er_high_school.find_by_name("ADAMS COUNTY 14")
+
+
+    assert_equal "", enrollment_high
+  end
+
 end
