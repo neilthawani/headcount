@@ -2,6 +2,7 @@ require "minitest/autorun"
 require "minitest/pride"
 require "enrollment_repository"
 require "pry"
+require "enrollment"
 
 class EnrollmentRepositoryTest < Minitest::Test
   def fixture_path
@@ -67,12 +68,22 @@ class EnrollmentRepositoryTest < Minitest::Test
   end
 
   def test_district_repo_can_load_data_from_two_sources
-    skip
     enrollment_kinder = er.find_by_name("Colorado")
     enrollment_high = er_high_school.find_by_name("ADAMS COUNTY 14")
 
-
-    assert_equal "", enrollment_high
+    assert_equal "ADAMS COUNTY 14", enrollment_high.name
+    assert_equal "Colorado", enrollment_kinder.name
   end
 
+  def test_graduation_rate_by_year
+    enrollment = er_high_school.find_by_name("ADAMS COUNTY 14")
+    grad_rate = {2010=>0.57, 2011=>0.608, 2012=>0.633, 2013=>0.593, 2014=>0.659}
+
+    assert_equal grad_rate, enrollment.graduation_rate_by_year
+  end
+
+  def test_graduation_rate_in_year
+    enrollment = er_h igh_school.find_by_name("ADAMS COUNTY 14")
+    assert_equal 0.57, enrollment.graduation_rate_in_year(2010)
+  end
 end
