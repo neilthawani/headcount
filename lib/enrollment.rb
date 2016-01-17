@@ -24,5 +24,4 @@ class Enrollment
   def graduation_rate_in_year(year)
     high_school_graduation_rates[year]
   end
-
 end

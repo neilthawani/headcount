@@ -83,7 +83,7 @@ class EnrollmentRepositoryTest < Minitest::Test
   end
 
   def test_graduation_rate_in_year
-    enrollment = er_h igh_school.find_by_name("ADAMS COUNTY 14")
+    enrollment = er_high_school.find_by_name("ADAMS COUNTY 14")
     assert_equal 0.57, enrollment.graduation_rate_in_year(2010)
   end
 end

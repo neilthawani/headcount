@@ -51,6 +51,11 @@ class HeadCountAnalystTest < Minitest::Test
     assert_equal district_trend, ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
   end
 
-  def 
+  def test_does_kindergarten_participation_affect_hs_graduation
+    skip 
+    dr = DistrictRepository.new
+    ha = HeadcountAnalyst.new(dr)
 
+    assert_equal 1.234, ha.kindergarten_against_high_school_graduation('ACADEMY 20')
+  end
 end
