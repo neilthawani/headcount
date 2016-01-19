@@ -1,12 +1,13 @@
 require 'pry'
 require_relative 'district'
 class Enrollment
-  attr_reader :name, :kindergarten_participation, :high_school_graduation_rates
+  attr_accessor :name, :kindergarten_participation, :high_school_graduation_rates, :school_data
 
   def initialize(enrollment_data)
     @name = enrollment_data[:name]
-    @kindergarten_participation = enrollment_data[:kindergarten_participation]
-    @high_school_graduation_rates = enrollment_data[:high_school_graduation_rates]
+    # @kindergarten_participation = enrollment_data[:kindergarten_participation]
+    # @high_school_graduation_rates = enrollment_data[:high_school_graduation_rates]
+    @school_data = {kindergarten_participation: enrollment_data[:kindergarten_participation], high_school_graduation_rates: enrollment_data[:high_school_graduation_rates]}
   end
 
   def kindergarten_participation_in_year(year = nil)

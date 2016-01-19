@@ -63,10 +63,11 @@ class EnrollmentRepositoryTest < Minitest::Test
     enrollment = er.find_by_name("Colo*!^*@#rado")
     assert_equal(nil, enrollment)
   end
-  # meta single: true
+  meta single: true
   def test_enrollment_repository_with_high_school_data
     e = er.find_by_name("ACADEMY 20")
     expected = {2010=>0.738, 2011=>0.751, 2012=>0.777, 2013=>0.713, 2014=>0.757}
+    binding.pry
     expected.each do |k,v|
       assert_in_delta v, e.graduation_rate_by_year[k], 0.005
     end
