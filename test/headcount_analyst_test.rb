@@ -4,32 +4,42 @@ require_relative '../lib/headcount_analyst'
 require_relative '../lib/district_repository'
 
 class HeadCountAnalystTest < Minitest::Test
+  def fixture_path
+    File.expand_path("fixtures/Kindergartners in full-day program.csv", __dir__)
+  end
+
+  def dr
+    @dr ||= begin
+      dr = DistrictRepository.new
+      dr.load_data({
+        :enrollment => {
+          :kindergarten => fixture_path
+        }
+       })
+       dr
+    end
+  end
 
   def test_head_analyst_exists
-    dr = DistrictRepository.new
-    ha = HeadcountAnalyst.new(dr)
 
+    ha = HeadcountAnalyst.new(dr)
     assert ha
   end
 
   def test_does_head_analyst_init_with_district_repo
-    dr = DistrictRepository.new
     ha = HeadcountAnalyst.new(dr)
-
-    # assert_equal DistrictRepository, ha.dr.class
     assert_kind_of DistrictRepository, ha.dr
   end
 
-  def test_returns_the_right_district_repo
-    dr = DistrictRepository.new
-    ha = HeadcountAnalyst.new(dr)
+  # def test_returns_the_right_district_repo
+  #   dr
+  #   ha = HeadcountAnalyst.new(dr)
+  #   # binding.pry
+  #   assert_equal dr.find_by_name("ACADEMY 20").name, ha.find_by_name("ACADEMY 20").name
+  # end
 
-    assert_equal dr.find_by_name("ACADEMY 20").name, ha.dr.find_by_name("ACADEMY 20").name
-  end
 
   def test_if_kidergarten_participation_compares_to_state_average
-
-    dr = DistrictRepository.new
     ha = HeadcountAnalyst.new(dr)
 
     assert_equal 0.766, ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO')
@@ -52,7 +62,7 @@ class HeadCountAnalystTest < Minitest::Test
   end
 
   def test_does_kindergarten_participation_affect_hs_graduation
-    skip 
+    skip
     dr = DistrictRepository.new
     ha = HeadcountAnalyst.new(dr)
 

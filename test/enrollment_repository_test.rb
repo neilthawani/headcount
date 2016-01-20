@@ -53,8 +53,8 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert_equal("Colorado", enrollment.name)
   end
 
-  def test_it_returns_nil_for_empty_input
-    enrollment = er.find_by_name("")
+  def test_it_returns_nil_for_no_input
+    enrollment = er.find_by_name(nil)
     assert_equal(nil, enrollment)
   end
 
@@ -63,31 +63,15 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert_equal(nil, enrollment)
   end
 
-  meta single: true
-  def test_enrollment_repository_with_high_school_data
-    binding.pry
-    e = er.find_by_name("ACADEMY 20")
-    expected = {2010=>0.738, 2011=>0.751, 2012=>0.777, 2013=>0.713, 2014=>0.757}
-    binding.pry
-    # expected.each do |k,v|
-    #   assert_in_delta v, e.graduation_rate_by_year[k], 0.005
-    # end
-    assert_in_delta 0.738, e.graduation_rate_in_year(2010), 0.005
+  def test_graduation_rate_by_year
+    enrollment = er.find_by_name("ADAMS COUNTY 14")
+    grad_rate = {2010=>0.57, 2011=>0.608, 2012=>0.633, 2013=>0.593, 2014=>0.659}
+
+    assert_equal grad_rate, enrollment.graduation_rate_by_year
   end
-  # meta single: true
-  # def test_blah
-  #   er.merge
-  # end
-  #
-  # def test_graduation_rate_by_year
-  #   enrollment = er_high_school.find_by_name("ADAMS COUNTY 14")
-  #   grad_rate = {2010=>0.57, 2011=>0.608, 2012=>0.633, 2013=>0.593, 2014=>0.659}
-  #
-  #   assert_equal grad_rate, enrollment.graduation_rate_by_year
-  # end
-  #
-  # def test_graduation_rate_in_year
-  #   enrollment = er_high_school.find_by_name("ADAMS COUNTY 14")
-  #   assert_equal 0.57, enrollment.graduation_rate_in_year(2010)
-  # end
+
+  def test_graduation_rate_in_year
+    enrollment = er.find_by_name("ADAMS COUNTY 14")
+    assert_equal 0.57, enrollment.graduation_rate_in_year(2010)
+  end
 end

@@ -4,13 +4,11 @@ require_relative "district"
 require_relative "enrollment_repository"
 
 class DistrictRepository
-  attr_reader :districts, :district_key, :er
+  attr_reader :districts, :district_key, :er, :enrollment, :make_a_enrollment_repo, :send_enrollments_out
 
   def initialize
     @districts = {}
-    # runner
-    # make_a_enrollment_repo
-    # send_enrollments_out
+
   end
 
   def find_by_name(name)
@@ -36,7 +34,9 @@ class DistrictRepository
 
   def send_enrollments_out
     # hey districts each of you line up and come here
+      binding.pry
     districts.each do |district_name, district|
+
       # her district what's your name?
       #hey enrollment REpo, find me the Enrollment with this name
       enrollment = er.find_by_name(district.name)
@@ -47,7 +47,12 @@ class DistrictRepository
 
   def make_a_enrollment_repo
     @er = EnrollmentRepository.new
-    er.load_data(enrollment: { kindergarten: "./test/fixtures/Kindergartners in full-day program.csv" })
+      er.load_data({
+        :enrollment => {
+          :kindergarten => "test/fixtures/Kindergartners in full-day program.csv",
+          :high_school_graduation => "test/fixtures/High school graduation rates.csv"
+        }
+      })
   end
 
   def load_data(district_data)

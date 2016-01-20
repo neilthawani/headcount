@@ -46,9 +46,13 @@ class EnrollmentRepository
 
 
   def find_by_name(name)
-    data = enrollments.find do |element|
-     element[1].name.downcase == name.downcase
+    if name.nil?
+      nil
+    else
+      data = enrollments.find do |element|
+       element[1].name.downcase == name.downcase
     end
-    data[1]
+      data && data[1]
+    end
   end
 end

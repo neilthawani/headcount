@@ -5,6 +5,7 @@ class District
 
   def initialize(name)
     @name = name[:name]
+
   end
 
   def enrollment
@@ -15,12 +16,7 @@ class District
     @enrollment_data = data
   end
 
-  def calculate_kinder_average
-    enrollment_percentages = enrollment.kindergarten_participation.values
-    total_enrollment = enrollment_percentages.map { |percent| percent.to_f  }.reduce(:+)
-    average_district_percentage = total_enrollment/enrollment_percentages.count
-    average_district_percentage.round(3)
-  end
+
 end
 
 District.new(name: "ACADEMY 20")
