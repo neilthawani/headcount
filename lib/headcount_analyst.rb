@@ -11,17 +11,9 @@ class HeadcountAnalyst
     # @enrollment = EnrollmentRepository.new
   end
 
-  def calculate_kinder_average
-    binding.pry
-    enrollment_percentages = enrollment.kindergarten_participation.values
-    total_enrollment = enrollment_percentages.map { |percent| percent.to_f  }.reduce(:+)
-    average_district_percentage = total_enrollment/enrollment_percentages.count
-    average_district_percentage.round(3)
-  end
-
   def kindergarten_participation_rate_variation(district_1, district_2)
     district1 = dr.find_by_name(district_1).calculate_kinder_average
-
+    
     district2 = dr.find_by_name(district_2[:against]).calculate_kinder_average
     (district1/district2).round(3)
   end

@@ -14,8 +14,14 @@ class District
 
   def get_enrollment(data)
     @enrollment_data = data
-  end
+   end
 
+   def calculate_kinder_average
+     enrollment_percentages = enrollment.kindergarten_participation.values
+     total_enrollment = enrollment_percentages.map { |percent| percent.to_f  }.reduce(:+)
+     average_district_percentage = total_enrollment/enrollment_percentages.count
+     average_district_percentage.round(3)
+   end
 
 end
 

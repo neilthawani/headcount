@@ -8,7 +8,9 @@ class DistrictRepository
 
   def initialize
     @districts = {}
-
+    # runner
+    # make_a_enrollment_repo
+    # send_enrollments_out
   end
 
   def find_by_name(name)
@@ -34,7 +36,6 @@ class DistrictRepository
 
   def send_enrollments_out
     # hey districts each of you line up and come here
-      binding.pry
     districts.each do |district_name, district|
 
       # her district what's your name?
@@ -42,7 +43,9 @@ class DistrictRepository
       enrollment = er.find_by_name(district.name)
     # I'm going to give you your enrollment object, and you have to keep it
       district.get_enrollment(enrollment)
+      district.enrollment
     end
+    # binding.pry
   end
 
   def make_a_enrollment_repo
@@ -60,5 +63,7 @@ class DistrictRepository
     contents = CSV.open kindergarten_csv, headers: true,
                                           header_converters: :symbol
     parser(contents)
+    make_a_enrollment_repo
+    send_enrollments_out
   end
 end

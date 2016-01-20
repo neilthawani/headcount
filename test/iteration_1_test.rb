@@ -23,13 +23,9 @@ class IterationOneTest < Minitest::Test
     end
   end
 
- meta single: true
   def test_starting_relationship_layer
-    setup
     district = dr.find_by_name("ACADEMY 20")
-    # dr.make_a_enrollment_repo
-    # dr.send_enrollments_out
-    enrollment = district.enrollment
     assert_equal 0.436, district.enrollment.kindergarten_participation_in_year(2010)
   end
+
 end
