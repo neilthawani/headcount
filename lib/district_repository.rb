@@ -8,9 +8,9 @@ class DistrictRepository
 
   def initialize
     @districts = {}
-    runner
-    make_a_enrollment_repo
-    send_enrollments_out
+    # runner
+    # make_a_enrollment_repo
+    # send_enrollments_out
   end
 
   def find_by_name(name)
@@ -55,10 +55,5 @@ class DistrictRepository
     contents = CSV.open kindergarten_csv, headers: true,
                                           header_converters: :symbol
     parser(contents)
-  end
-
-  def runner
-    path = File.expand_path("../data/Kindergartners in full-day program.csv", __dir__)
-    load_data enrollment: { kindergarten: path }
   end
 end
