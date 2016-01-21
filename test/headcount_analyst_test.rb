@@ -80,10 +80,12 @@ class HeadCountAnalystTest < Minitest::Test
     assert_equal true, ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'STATEWIDE')
   end
 
-  meta single: true
+  # meta single: true
   def test_does_kinder_participation_correlate_with_a_subset_of_districts
     ha = HeadcountAnalyst.new(dr)
     districts = ['ACADEMY 20','ADAMS COUNTY 14', 'ADAMS-ARAPAHOE 28J', 'AGUILAR REORGANIZED 6']
     assert_equal true, ha.kindergarten_participation_correlates_with_high_school_graduation(:across => districts)
   end
+
+
 end

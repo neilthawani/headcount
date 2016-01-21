@@ -16,6 +16,10 @@ class District
     @enrollment_data = data
   end
 
+  def statewide_test
+    @statewide_data
+  end
+
   def calculate_kinder_average
     enrollment_percentages = enrollment.kindergarten_participation.values
 
