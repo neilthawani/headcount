@@ -47,10 +47,13 @@ class HeadcountAnalyst
     dr.find_by_name(district[:against]).enrollment.kindergarten_participation
   end
 
-  def kindergarten_against_high_school_graduation(district)
-  #   high_school_enrollment = enrollment.find_by_name(district)
-  #   binding.pry
-  #   puts high_school_enrollment
+  def kindergarten_participation_against_high_school_graduation(district, hash = {against: "COLORADO"})
+
+    kinder_variation = kindergarten_participation_rate_variation(district, hash)
+
+    grad_variation = high_school_graduation_variation(district, hash)
+
+    kinder_grad_variance = (kinder_variation/grad_variation).round(3)
   end
 
   def hs_1_grad_average(district)
@@ -69,6 +72,12 @@ class HeadcountAnalyst
     variation = (hs_1/hs_2).round(3)
   end
 
+  def kindergarten_participation_correlates_with_high_school_graduation(for_hash, hash = {against: "COLORADO"})
+
+    does_it_correlate = high_school_graduation_variation(for_hash[:for], hash)
+    does_it_correlate.between?(0.6,1.5)
+  end
+
   # def find_by_name(name)
   #   if name.nil?
   #     nil
@@ -79,10 +88,4 @@ class HeadcountAnalyst
   #     data && data[1]
   #   end
   # end
-
-    # kindergarten_variation = kindergarten_participation_rate_variation(district, :against => 'COLORADO')
-     #dividing kinder participation by statwide
-    #  graduation_variation = kindergarten_participation_rate_variation(district, :against => 'COLORADO')
-    #  divide the districts grad rate by state avg.
-
 end

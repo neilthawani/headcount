@@ -63,9 +63,15 @@ class HeadCountAnalystTest < Minitest::Test
   end
 
   def test_does_kindergarten_participation_affect_hs_graduation
-    skip
     ha = HeadcountAnalyst.new(dr)
 
-    assert_equal 1.234, ha.kindergarten_against_high_school_graduation('ACADEMY 20')
+    assert_equal 0.642, ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
+  end
+
+  meta single: true
+  def test_does_kinder_participation_correlate
+    ha = HeadcountAnalyst.new(dr)
+
+    assert_equal true, ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
   end
 end
