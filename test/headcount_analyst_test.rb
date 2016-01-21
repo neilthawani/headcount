@@ -32,9 +32,8 @@ class HeadCountAnalystTest < Minitest::Test
   end
 
   # def test_returns_the_right_district_repo
-  #   dr
   #   ha = HeadcountAnalyst.new(dr)
-  #   # binding.pry
+  #   binding.pry
   #   assert_equal dr.find_by_name("ACADEMY 20").name, ha.find_by_name("ACADEMY 20").name
   # end
 
@@ -50,7 +49,6 @@ class HeadCountAnalystTest < Minitest::Test
     assert_equal 0.573, ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'ADAMS COUNTY 14')
   end
 
-  # meta single: true
   def test_if_kidergarten_participation_rate_trends_against_state_average
     ha = HeadcountAnalyst.new(dr)
     district_trend = {2007=>0.992, 2006=>1.051, 2005=>0.96, 2004=>1.258, 2008=>0.718, 2009=>0.652, 2010=>0.681, 2011=>0.728, 2012=>0.688, 2013=>0.694, 2014=>0.661}

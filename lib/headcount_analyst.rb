@@ -5,37 +5,59 @@ require_relative 'enrollment_repository'
 require 'pry'
 
 class HeadcountAnalyst
-  attr_reader :dr, :enrollment
+  attr_reader :dr
   def initialize(dr)
     @dr = dr
     # @enrollment = EnrollmentRepository.new
   end
 
   def kindergarten_participation_rate_variation(district_1, district_2)
-    district1 = dr.find_by_name(district_1).calculate_kinder_average
-    
-    district2 = dr.find_by_name(district_2[:against]).calculate_kinder_average
+    district1 = district_1_kinder_avg(district_1)
+
+    district2 = district_2_kinder_avg(district_2)
+
     (district1/district2).round(3)
+  end
+
+   def district_1_kinder_avg(district)
+     dr.find_by_name(district).calculate_kinder_average
+   end
+
+   def district_2_kinder_avg(district)
+     dr.find_by_name(district[:against]).calculate_kinder_average
+   end
+
+  def district_1_kinder_participation(district)
+    dr.find_by_name(district).enrollment.kindergarten_participation
+  end
+
+  def district_2_kinder_state_participation(district)
+    dr.find_by_name(district[:against]).enrollment.kindergarten_participation
   end
 
   def kindergarten_participation_rate_variation_trend(district_1, district_2)
     district_trend = Hash.new
+    district1 = district_1_kinder_participation(district_1)
+    district2 = district_2_kinder_state_participation(district_2)
 
-    district1 = dr.find_by_name(district_1).enrollment.kindergarten_participation
-
-    district2 =
-
-    dr.find_by_name(district_2[:against]).enrollment.kindergarten_participation
     district1.each do |year, participation|
       district_trend[year.to_i] = (district1[year].to_f/ district2[year].to_f).round(3)
     end
     district_trend
   end
 
-  # def kindergarten_against_high_school_graduation(district)
+  def kindergarten_against_high_school_graduation(district)
   #   high_school_enrollment = enrollment.find_by_name(district)
+  #   binding.pry
   #   puts high_school_enrollment
-  # end
+  end
+
+  def kindergarten_variation(district_1, district_2)
+
+  end
+
+  def graduation_variation
+  end
 
   def find_by_name(name)
     if name.nil?
