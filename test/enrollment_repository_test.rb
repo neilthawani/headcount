@@ -5,7 +5,7 @@ require "pry"
 require "enrollment"
 
 class EnrollmentRepositoryTest < Minitest::Test
-  def fixture_path
+  def fixture_path  
     File.expand_path("fixtures/Kindergartners in full-day program.csv", __dir__)
   end
 

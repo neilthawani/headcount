@@ -92,5 +92,4 @@ class DistrictRepositoryTest < Minitest::Test
     matched_names = matched_objects.map(&:name)
     assert_equal ["CENTENNIAL R-1", "CENTER 26 JT"], matched_names
   end
-
 end

@@ -19,13 +19,13 @@ class HeadcountAnalyst
     variation = (district1/district2).round(3)
   end
 
-   def district_1_kinder_avg(district)
-     dr.find_by_name(district).calculate_kinder_average
-   end
+  def district_1_kinder_avg(district)
+    dr.find_by_name(district).calculate_kinder_average
+  end
 
-   def district_2_kinder_avg(district)
-     dr.find_by_name(district[:against]).calculate_kinder_average
-   end
+  def district_2_kinder_avg(district)
+    dr.find_by_name(district[:against]).calculate_kinder_average
+  end
 
   def kindergarten_participation_rate_variation_trend(district_1, district_2)
     district_trend = Hash.new
@@ -73,10 +73,42 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_correlates_with_high_school_graduation(for_hash, hash = {against: "COLORADO"})
-
-    does_it_correlate = high_school_graduation_variation(for_hash[:for], hash)
-    does_it_correlate.between?(0.6,1.5)
+    if for_hash[:for] == 'STATEWIDE'
+      statewide(hash)
+    elsif for_hash[:across].class == Array
+      subset_of_districts(for_hash, hash)
+    else
+      does_it_correlate = high_school_graduation_variation(for_hash[:for], hash)
+      does_it_correlate.between?(0.6,1.5)
+    end
   end
+
+  def subset_of_districts(for_hash, hash)
+    districts_to_test = for_hash[:across]
+    x = districts_to_test.map do |district|
+      variations = high_school_graduation_variation(district, hash)
+      variations.between?(0.6,1.5)
+    end
+    if x.count(true)/x.count > 0.700
+      true
+    else
+      false
+    end
+  end
+
+  def statewide(hash)
+    all_districts = dr.districts.map do |key, value|
+      district_in_string = value.name
+      high_school_graduation_variation(district_in_string, hash)
+    end
+    if (all_districts.reduce(:+)/all_districts.count).round(3) >= 0.700
+      true
+    else
+      false
+    end
+  end
+end
+
 
   # def find_by_name(name)
   #   if name.nil?
@@ -88,4 +120,3 @@ class HeadcountAnalyst
   #     data && data[1]
   #   end
   # end
-end

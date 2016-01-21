@@ -14,12 +14,6 @@ class EnrollmentRepository
 
   def load_data(data)
     hash_pathway = {"kindergarten" => "kindergarten_participation", "high_school_graduation" => "high_school_graduation_rates" }
-    # I'm going to open two files
-    # 1. open kindergarten_participation
-    # 2. create new enrollment objects just with kindergarten participation
-    # 3. open high_school_graduation file
-    # 4. if my district is already in enrollments, I want to add high school graduation to it, else I'll create a new enrollment
-
 
     hash_pathway.each do |key, percentages|
       collection = Hash.new
@@ -40,10 +34,7 @@ class EnrollmentRepository
         end
       end
     end
-
-    #binding.pry
   end
-
 
   def find_by_name(name)
     if name.nil?
