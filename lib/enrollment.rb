@@ -5,7 +5,6 @@ class Enrollment
 
   def initialize(enrollment_data)
     @name = enrollment_data[:name]
-    # @kindergarten_participation = enrollment_data[:kindergarten_participation]
 
     @school_data = {kindergarten_participation: enrollment_data[:kindergarten_participation], high_school_graduation_rates: enrollment_data[:high_school_graduation_rates]}
   end
@@ -25,14 +24,6 @@ class Enrollment
       school_data[:kindergarten_participation]
     end
   end
-
-  # def kindergarten_participation_in_year(year = nil)
-  #   if year
-  #     kindergarten_participation[year]
-  #   else
-  #     kindergarten_participation
-  #   end
-  # end
 
   def graduation_rate_by_year
     high_school_graduation_rates

@@ -37,7 +37,7 @@ class HeadCountAnalystTest < Minitest::Test
   #   assert_equal dr.find_by_name("ACADEMY 20").name, ha.find_by_name("ACADEMY 20").name
   # end
 
-  def test_if_kidergarten_participation_compares_to_state_average
+  def test_if_kidergarten_participation_avg_compares_to_state_average
     ha = HeadcountAnalyst.new(dr)
 
     assert_equal 0.766, ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO')
@@ -56,7 +56,14 @@ class HeadCountAnalystTest < Minitest::Test
     assert_equal district_trend, ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
   end
 
+  def test_if_hs_graduation_avg_compares_to_state_average
+    ha = HeadcountAnalyst.new(dr)
+
+    assert_equal 1.194, ha.high_school_graduation_variation("ACADEMY 20", :against => 'COLORADO')
+  end
+
   def test_does_kindergarten_participation_affect_hs_graduation
+    skip
     ha = HeadcountAnalyst.new(dr)
 
     assert_equal 1.234, ha.kindergarten_against_high_school_graduation('ACADEMY 20')

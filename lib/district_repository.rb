@@ -8,9 +8,6 @@ class DistrictRepository
 
   def initialize
     @districts = {}
-    # runner
-    # make_a_enrollment_repo
-    # send_enrollments_out
   end
 
   def find_by_name(name)
