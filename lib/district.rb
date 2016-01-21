@@ -39,10 +39,3 @@ class District
     end
   end
 end
-
-District.new(name: "ACADEMY 20")
-
-
-nil && 1 # => nil
-2 && 1 # => 1
-1 && 2 # => 2

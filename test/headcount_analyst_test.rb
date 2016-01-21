@@ -31,12 +31,6 @@ class HeadCountAnalystTest < Minitest::Test
     assert_kind_of DistrictRepository, ha.dr
   end
 
-  # def test_returns_the_right_district_repo
-  #   ha = HeadcountAnalyst.new(dr)
-  #   binding.pry
-  #   assert_equal dr.find_by_name("ACADEMY 20").name, ha.find_by_name("ACADEMY 20").name
-  # end
-
   def test_if_kidergarten_participation_avg_compares_to_state_average
     ha = HeadcountAnalyst.new(dr)
 
@@ -80,7 +74,6 @@ class HeadCountAnalystTest < Minitest::Test
     assert_equal true, ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'STATEWIDE')
   end
 
-  meta single: true
   def test_does_kinder_participation_correlate_with_a_subset_of_districts
     ha = HeadcountAnalyst.new(dr)
     districts = ['ACADEMY 20','ADAMS COUNTY 14', 'ADAMS-ARAPAHOE 28J', 'AGUILAR REORGANIZED 6']

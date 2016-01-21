@@ -32,17 +32,11 @@ class DistrictRepository
   end
 
   def send_enrollments_out
-    # hey districts each of you line up and come here
     districts.each do |district_name, district|
-
-      # her district what's your name?
-      #hey enrollment REpo, find me the Enrollment with this name
       enrollment = er.find_by_name(district.name)
-    # I'm going to give you your enrollment object, and you have to keep it
       district.get_enrollment(enrollment)
       district.enrollment
     end
-    # binding.pry
   end
 
   def make_a_enrollment_repo

@@ -1,4 +1,3 @@
-
 require_relative 'district_repository'
 require_relative 'enrollment'
 require_relative 'enrollment_repository'
@@ -108,15 +107,3 @@ class HeadcountAnalyst
     end
   end
 end
-
-
-  # def find_by_name(name)
-  #   if name.nil?
-  #     nil
-  #   else
-  #     data = enrollments.find do |element|
-  #      element[1].name.downcase == name.downcase
-  #     end
-  #     data && data[1]
-  #   end
-  # end
