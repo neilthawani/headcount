@@ -12,14 +12,17 @@ class EnrollmentRepository
     @enrollments = {}
   end
 
-  def load_data(data)
-    hash_pathway = {"kindergarten" => "kindergarten_participation", "high_school_graduation" => "high_school_graduation_rates" }
+  def hash_pathway
+    hash_pathway = {"kindergarten" => "kindergarten_participation",
+                  "high_school_graduation" => "high_school_graduation_rates" }
+  end
 
+  def load_data(data)
     hash_pathway.each do |key, percentages|
       collection = Hash.new
 
       CSV.foreach(data[:enrollment][key.to_sym],
-                  headers: true, header_converters: :symbol) do |row|
+                       headers: true, header_converters: :symbol) do |row|
         collection[row[:location]] ||= Hash.new
         collection[row[:location]][row[:timeframe].to_i] = row[:data][0..4].to_f
       end
@@ -28,9 +31,9 @@ class EnrollmentRepository
             enrollment = Enrollment.new(name: location,
                                            percentages.to_sym => data)
         if enrollments[location]
-          enrollments[location].school_data[percentages.to_sym] = data
+            enrollments[location].school_data[percentages.to_sym] = data
         else
-          enrollments[location] = enrollment
+            enrollments[location] = enrollment
         end
       end
     end
