@@ -35,7 +35,7 @@ class HeadcountAnalyst
   end
 
   def district_kinder_participation(district)
-    district_repository.find_by_name(district).enrollment.kindergarten_participation
+    district_repository.find_by_name(district).enrollment_data.kindergarten_participation
   end
 
   def kindergarten_participation_against_high_school_graduation(for_district, against_district = "COLORADO")

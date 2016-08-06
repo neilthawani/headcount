@@ -2,21 +2,14 @@ require_relative 'enrollment'
 require 'bigdecimal'
 class District
   attr_reader :name
+  attr_accessor :enrollment_data
 
   def initialize(name)
     @name = name[:name]
   end
 
-  def enrollment
-    @enrollment_data
-  end
-
-  def get_enrollment(data)
-    @enrollment_data = data
-  end
-
   def calculate_kinder_average
-    enrollment_percentages = enrollment.kindergarten_participation.values
+    enrollment_percentages = enrollment_data.kindergarten_participation.values
 
     total_enrollment = enrollment_percentages.map { |percent| percent.to_f  }.reduce(:+)
 
@@ -25,10 +18,10 @@ class District
    end
 
   def calculate_hs_grad_average
-    if enrollment.high_school_graduation_rates == nil
+    if enrollment_data.high_school_graduation_rates == nil
       grad_rates = 0.5
     else
-      grad_rates = enrollment.high_school_graduation_rates.values
+      grad_rates = enrollment_data.high_school_graduation_rates.values
 
       total_grad_rate = grad_rates.map {|grad_rate| grad_rate.to_f }.reduce(:+)
 

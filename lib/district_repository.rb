@@ -37,9 +37,9 @@ class DistrictRepository
   def send_enrollments_out
     districts.each do |district_name, district|
       enrollment = enrollment_repository.find_by_name(district.name)
-      district.get_enrollment(enrollment)
+      district.send("enrollment_data=", enrollment)
 
-      district.enrollment
+      district.enrollment_data
     end
   end
 

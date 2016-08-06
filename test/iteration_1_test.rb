@@ -23,6 +23,6 @@ class IterationOneTest < Minitest::Test
 
   def test_starting_relationship_layer
     district = @district_repository.find_by_name("ACADEMY 20")
-    assert_equal 0.436, district.enrollment.kindergarten_participation[2010]
+    assert_equal 0.436, district.enrollment_data.kindergarten_participation[2010]
   end
 end
