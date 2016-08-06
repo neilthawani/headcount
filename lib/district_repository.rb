@@ -16,7 +16,7 @@ class DistrictRepository
     pair && pair[1]
   end
 
-  def find_all_districts_matching_name(name_fragment)
+  def find_all_districts_matching_name_fragment(name_fragment)
     matching = districts.select do |_key, value|
       value.name.upcase.include?(name_fragment.upcase)
     end
@@ -34,27 +34,26 @@ class DistrictRepository
     { :high_school_graduation_rates => path }
   end
 
-  def make_a_enrollment_repo
-    file_paths = [kindergarten_participation_access_hash,
-                  hs_graduation_rate_access_hash]
-
-    @enrollment_repository = EnrollmentRepository.new
-    enrollment_repository.load_data(file_paths)
-  end
-
   def load_data(kindergarten_csv_path)
     contents = CSV.open(kindergarten_csv_path,
                         headers: true,
                         header_converters: :symbol)
 
+    # loader
     contents.each do |row|
       district = row[:location]
 
       districts[district.to_sym] = District.new(name: district)
     end
 
-    make_a_enrollment_repo
+    # make enrollment repo
+    file_paths = [kindergarten_participation_access_hash,
+                  hs_graduation_rate_access_hash]
+
+    @enrollment_repository = EnrollmentRepository.new
+    enrollment_repository.load_data(file_paths)
     
+    # send enrollments out
     districts.each do |district_name, district|
       enrollment = enrollment_repository.find_by_name(district.name)
       district.send("enrollment_data=", enrollment)
