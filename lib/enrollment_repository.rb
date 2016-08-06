@@ -1,9 +1,6 @@
 require "csv"
-require "pry"
 require_relative "enrollment"
 require_relative "district"
-require 'json'
-require 'ostruct'
 
 class EnrollmentRepository
   attr_accessor :enrollments
