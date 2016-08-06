@@ -4,10 +4,10 @@ require_relative 'enrollment_repository'
 require 'pry'
 
 class HeadcountAnalyst
-  attr_reader :dr
+  attr_reader :district_repository
 
-  def initialize(dr)
-    @dr = dr
+  def initialize(district_repository)
+    @district_repository = district_repository
   end
 
   def kindergarten_participation_rate_variation(district_1, district_2)
@@ -19,11 +19,11 @@ class HeadcountAnalyst
   end
 
   def district_1_kinder_avg(district)
-    dr.find_by_name(district).calculate_kinder_average
+    district_repository.find_by_name(district).calculate_kinder_average
   end
 
   def district_2_kinder_avg(district)
-    dr.find_by_name(district[:against]).calculate_kinder_average
+    district_repository.find_by_name(district[:against]).calculate_kinder_average
   end
 
   def kindergarten_participation_rate_variation_trend(district_1, district_2)
@@ -39,11 +39,11 @@ class HeadcountAnalyst
   end
 
   def district_1_kinder_participation(district)
-    dr.find_by_name(district).enrollment.kindergarten_participation
+    district_repository.find_by_name(district).enrollment.kindergarten_participation
   end
 
   def district_2_kinder_state_participation(district)
-    dr.find_by_name(district[:against]).enrollment.kindergarten_participation
+    district_repository.find_by_name(district[:against]).enrollment.kindergarten_participation
   end
 
   def kindergarten_participation_against_high_school_graduation(district, hash = {against: "COLORADO"})
@@ -56,11 +56,11 @@ class HeadcountAnalyst
   end
 
   def hs_1_grad_average(district)
-    dr.find_by_name(district).calculate_hs_grad_average
+    district_repository.find_by_name(district).calculate_hs_grad_average
   end
 
   def hs_2_grad_average(district)
-    dr.find_by_name(district[:against]).calculate_hs_grad_average
+    district_repository.find_by_name(district[:against]).calculate_hs_grad_average
   end
 
   def high_school_graduation_variation(district_1, district_2)
@@ -96,7 +96,7 @@ class HeadcountAnalyst
   end
 
   def statewide(hash)
-    all_districts = dr.districts.map do |key, value|
+    all_districts = district_repository.districts.map do |key, value|
       district_in_string = value.name
       high_school_graduation_variation(district_in_string, hash)
     end
