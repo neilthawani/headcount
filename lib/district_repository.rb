@@ -4,7 +4,7 @@ require_relative "district"
 require_relative "enrollment_repository"
 
 class DistrictRepository
-  attr_reader :districts, :district_key, :er, :enrollment, :make_a_enrollment_repo, :send_enrollments_out
+  attr_reader :districts, :district_key, :er, :enrollment
 
   def initialize
     @districts = {}
