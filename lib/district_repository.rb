@@ -46,15 +46,15 @@ class DistrictRepository
   def make_a_enrollment_repo
     @enrollment_repository = EnrollmentRepository.new
       enrollment_repository.load_data({
-        :enrollment => {
-          :kindergarten => "data/Kindergartners in full-day program.csv",
+        :enrollment_data => {
+          :kindergarten_participation => "data/Kindergartners in full-day program.csv",
           :high_school_graduation => "data/High school graduation rates.csv"
         }
       })
   end
 
-  def load_data(district_data)
-    kindergarten_csv = district_data.fetch(:enrollment).fetch(:kindergarten)
+  def load_data(district_repository_data)
+    kindergarten_csv = district_repository_data.fetch(:enrollment_data).fetch(:kindergarten_participation)
     contents = CSV.open(kindergarten_csv, headers: true, header_converters: :symbol)
 
     parser(contents)

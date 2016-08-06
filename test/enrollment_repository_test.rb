@@ -17,8 +17,8 @@ class EnrollmentRepositoryTest < Minitest::Test
     @enrollment_repository ||= begin
       enrollment_repository = EnrollmentRepository.new
       enrollment_repository.load_data({
-        :enrollment => {
-          :kindergarten => fixture_path_kindergarten,
+        :enrollment_data => {
+          :kindergarten_participation => fixture_path_kindergarten,
           :high_school_graduation => fixture_path_high_school
         }
       })

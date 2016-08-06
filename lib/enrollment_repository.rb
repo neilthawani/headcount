@@ -10,12 +10,12 @@ class EnrollmentRepository
   end
 
   def load_data(district_participation_or_graduation_values)
-    hash_pathway = {"kindergarten" => "kindergarten_participation",
+    hash_pathway = {"kindergarten_participation" => "kindergarten_participation",
                   "high_school_graduation" => "high_school_graduation_rates" }
 
     hash_pathway.each do |key, percentages|
       collection = Hash.new
-      csv_file = district_participation_or_graduation_values[:enrollment][key.to_sym]
+      csv_file = district_participation_or_graduation_values[:enrollment_data][key.to_sym]
 
       CSV.foreach(csv_file, headers: true, header_converters: :symbol) do |row|
         location = row[:location]

@@ -13,8 +13,8 @@ class DistrictRepositoryTest < Minitest::Test
       district_repository = DistrictRepository.new
 
       district_repository.load_data({
-        :enrollment => {
-          :kindergarten => fixture_path
+        :enrollment_data => {
+          :kindergarten_participation => fixture_path
         }
        })
        district_repository
