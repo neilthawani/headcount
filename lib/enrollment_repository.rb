@@ -41,10 +41,10 @@ class EnrollmentRepository
     if name.nil?
       nil
     else
-      data = enrollments.find do |element|
+      enrollment = enrollments.find do |element|
        element[1].name.downcase == name.downcase
     end
-      data && data[1]
+      enrollment && enrollment[1]
     end
   end
 end
