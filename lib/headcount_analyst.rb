@@ -24,7 +24,7 @@ class HeadcountAnalyst
     district2 = district_kinder_participation(district_2)
 
     district1.each do |year, participation|
-      district_trend[year.to_i] = (district1[year].to_f/ district2[year].to_f).round(3)
+      district_trend[year.to_i] = (district1[year].to_f / district2[year].to_f).round(3)
     end
     district_trend
   end
@@ -61,8 +61,7 @@ class HeadcountAnalyst
 
   def kindergarten_participation_correlates_with_high_school_graduation_across_subset_of_districts(across_array, against_district)
     x = across_array.map do |district|
-      variations = high_school_graduation_variation(district, against_district)
-      variations.between?(0.6,1.5)
+      kindergarten_participation_correlates_with_high_school_graduation(district, against_district)
     end
 
     if x.count(true)/x.count > 0.700

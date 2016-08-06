@@ -24,7 +24,8 @@ class EnrollmentRepository
       end
 
       collection.each do |location, data|
-        enrollment = Enrollment.new(name: location, key_path_hash.keys[0] => data)
+        enrollment = Enrollment.new(name: location,
+                                    key_path_hash.keys[0] => data)
         if enrollments[location]
             enrollments[location].send("#{key_path_hash.keys[0].to_s}=", data)
         else
