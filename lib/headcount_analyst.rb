@@ -5,29 +5,23 @@ class HeadcountAnalyst
     @district_repository = district_repository
   end
 
+  def district_field_average(district, key)
+    district_data = @district_repository.find_by_name(district)
+    district_data.calculate_field_average(key)
+  end
+
   def kindergarten_participation_rate_variation(district1_name, district2_name)
-    district1 = kindergarten_participation_average(district1_name)
-    district2 = kindergarten_participation_average(district2_name)
+    district1 = district_field_average(district1_name, :kindergarten_participation)
+    district2 = district_field_average(district2_name, :kindergarten_participation)
     
     (district1/district2).round(3)
   end
 
-  def kindergarten_participation_average(district)
-    district_data = @district_repository.find_by_name(district)
-    
-    district_data.calculate_field_average(:kindergarten_participation)
-  end
-
   def high_school_graduation_variation(district1_name, district2_name)
-    hs_1 = high_school_graduation_average(district1_name)
+    district1 = district_field_average(district1_name, :high_school_graduation_rates)
+    district2 = district_field_average(district2_name, :high_school_graduation_rates)
 
-    hs_2 = high_school_graduation_average(district2_name)
-
-    variation = (hs_1/hs_2).round(3)
-  end
-
-  def high_school_graduation_average(district)
-    @district_repository.find_by_name(district).calculate_field_average(:high_school_graduation_rates)
+    (district1/district2).round(3)
   end
 
   def kindergarten_participation_rate_variation_trend(district1_name, district2_name)
