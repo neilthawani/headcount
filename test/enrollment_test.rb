@@ -26,15 +26,13 @@ class EnrollmentTest < Minitest::Test
 
   def test_we_can_create_an_instance
     assert_equal "ACADEMY 20", @enrollment.name
+  end
 
+  def test_it_can_get_kindergarten_participation
     assert_equal(expected_kinder_participation_data, @enrollment.kindergarten_participation)
   end
 
   def test_it_can_get_kindergarten_participation_by_year
-    assert_equal(expected_kinder_participation_data, @enrollment.kindergarten_participation)
-  end
-
-  def test_it_can_get_kindergarten_participation_by_year_by_year
     assert_equal(0.3915, @enrollment.kindergarten_participation[2010])
   end
 
