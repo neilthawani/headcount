@@ -39,11 +39,11 @@ class HeadCountAnalystTest < Minitest::Test
   end
 
   def test_if_kidergarten_participation_avg_compares_to_state_average
-    assert_equal 0.766, @headcount_analyst.kindergarten_participation_rate_variation('ACADEMY 20', 'COLORADO')
+    assert_equal 0.766, @headcount_analyst.calculate_district_data_variation('ACADEMY 20', 'COLORADO', :kindergarten_participation)
   end
 
   def test_if_kidergarten_participation_compares_to_another_district
-    assert_equal 0.573, @headcount_analyst.kindergarten_participation_rate_variation('ACADEMY 20', 'ADAMS COUNTY 14')
+    assert_equal 0.573, @headcount_analyst.calculate_district_data_variation('ACADEMY 20', 'ADAMS COUNTY 14', :kindergarten_participation)
   end
 
   def test_if_kidergarten_participation_rate_trends_against_state_average
@@ -53,7 +53,7 @@ class HeadCountAnalystTest < Minitest::Test
   end
 
   def test_if_hs_graduation_avg_compares_to_state_average
-    assert_equal 1.194, @headcount_analyst.high_school_graduation_variation("ACADEMY 20", 'COLORADO')
+    assert_equal 1.194, @headcount_analyst.calculate_district_data_variation("ACADEMY 20", 'COLORADO', :high_school_graduation_rates)
   end
 
   def test_does_kindergarten_participation_affect_hs_graduation

@@ -5,23 +5,24 @@ class HeadcountAnalyst
     @district_repository = district_repository
   end
 
-  def district_field_average(district, key)
-    district_data = @district_repository.find_by_name(district)
-    district_data.calculate_field_average(key)
-  end
+  # def kindergarten_participation_rate_variation(district1_name, district2_name)
+  #   calculate_district_data_variation(district1_name, district2_name, :kindergarten_participation)
+  # end
 
-  def kindergarten_participation_rate_variation(district1_name, district2_name)
-    district1 = district_field_average(district1_name, :kindergarten_participation)
-    district2 = district_field_average(district2_name, :kindergarten_participation)
+  # def high_school_graduation_variation(district1_name, district2_name)
+  #   calculate_district_data_variation(district1_name, district2_name, :high_school_graduation_rates)
+  # end
+
+  def calculate_district_data_variation(district1_name, district2_name, key)
+    district1 = calculate_district_field_average(district1_name, key)
+    district2 = calculate_district_field_average(district2_name, key)
     
     (district1/district2).round(3)
   end
 
-  def high_school_graduation_variation(district1_name, district2_name)
-    district1 = district_field_average(district1_name, :high_school_graduation_rates)
-    district2 = district_field_average(district2_name, :high_school_graduation_rates)
-
-    (district1/district2).round(3)
+  def calculate_district_field_average(district, key)
+    district_data = @district_repository.find_by_name(district)
+    district_data.calculate_field_average(key)
   end
 
   def kindergarten_participation_rate_variation_trend(district1_name, district2_name)
@@ -43,15 +44,15 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_against_high_school_graduation(for_district, against_district = "COLORADO")
-    kinder_variation = kindergarten_participation_rate_variation(for_district, against_district)
+    kinder_variation = calculate_district_data_variation(for_district, against_district, :kindergarten_participation)
 
-    grad_variation = high_school_graduation_variation(for_district, against_district)
+    grad_variation = calculate_district_data_variation(for_district, against_district, :high_school_graduation_rates)
 
     kinder_grad_variance = (kinder_variation/grad_variation).round(3)
   end
 
   def kindergarten_participation_correlates_with_high_school_graduation(for_district, against_district = "COLORADO")
-    does_it_correlate = high_school_graduation_variation(for_district, against_district)
+    does_it_correlate = calculate_district_data_variation(for_district, against_district, :high_school_graduation_rates)
     does_it_correlate.between?(0.6,1.5)
   end
 
@@ -67,11 +68,11 @@ class HeadcountAnalyst
     end
   end
 
-  def statewide_kindergarten_participation_correlates_with_hs_graduation(hash)
+  def statewide_kindergarten_participation_correlates_with_hs_graduation(district2)
     does_correlate = false
     all_districts = @district_repository.districts.map do |key, value|
-      district_in_string = value.name
-      high_school_graduation_variation(district_in_string, hash)
+      district1 = value.name
+      calculate_district_data_variation(district1, district2, :high_school_graduation_rates)
     end
 
     if (all_districts.reduce(:+)/all_districts.count).round(3) >= 0.700
