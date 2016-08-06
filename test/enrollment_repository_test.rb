@@ -1,8 +1,6 @@
 require "minitest/autorun"
 require "minitest/pride"
 require "enrollment_repository"
-require "pry"
-require "enrollment"
 
 class EnrollmentRepositoryTest < Minitest::Test
   def kindergarten_participation_access_hash

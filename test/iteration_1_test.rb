@@ -1,8 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require 'pry'
 require_relative "../lib/district_repository"
-require_relative "../lib/enrollment_repository"
 
 class IterationOneTest < Minitest::Test
   def kindergarten_data_fixture_path
