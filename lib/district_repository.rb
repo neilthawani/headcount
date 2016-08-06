@@ -41,8 +41,8 @@ class DistrictRepository
     { :high_school_graduation_rates => path }
   end
 
-  def load_district_data(kindergarten_csv_path)
-    contents = CSV.open(kindergarten_csv_path,
+  def load_district_data(csv_filepath)
+    contents = CSV.open(csv_filepath,
                         headers: true,
                         header_converters: :symbol)
 
