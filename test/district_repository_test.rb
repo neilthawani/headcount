@@ -12,7 +12,7 @@ class DistrictRepositoryTest < Minitest::Test
     @district_repository ||= begin
       district_repository = DistrictRepository.new
 
-      district_repository.load_data(fixture_path)
+      district_repository.load_district_data(fixture_path)
        district_repository
     end
   end
