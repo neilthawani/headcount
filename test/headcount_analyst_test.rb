@@ -74,6 +74,7 @@ class HeadCountAnalystTest < Minitest::Test
 
   def test_does_kinder_participation_correlate_with_a_subset_of_districts
     districts = ['ACADEMY 20','ADAMS COUNTY 14', 'ADAMS-ARAPAHOE 28J', 'AGUILAR REORGANIZED 6']
+    
     assert_equal true, @headcount_analyst.kindergarten_participation_correlates_with_high_school_graduation_across_subset_of_districts(districts, "COLORADO")
   end
 end

@@ -78,14 +78,16 @@ class HeadcountAnalyst
   end
 
   def statewide_kindergarten_participation_correlates_with_hs_graduation(hash)
+    does_correlate = false
     all_districts = district_repository.districts.map do |key, value|
       district_in_string = value.name
       high_school_graduation_variation(district_in_string, hash)
     end
+
     if (all_districts.reduce(:+)/all_districts.count).round(3) >= 0.700
-      true
-    else
-      false
+      does_correlate = true
     end
+
+    does_correlate
   end
 end
