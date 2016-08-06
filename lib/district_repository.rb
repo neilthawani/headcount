@@ -14,6 +14,7 @@ class DistrictRepository
     pair = districts.detect do |_key, value|
       name.strip.upcase == value.name.upcase
     end
+
     pair && pair[1]
   end
 
@@ -21,12 +22,14 @@ class DistrictRepository
     matching = districts.select do |_key, value|
       value.name.upcase.include?(name_fragment.upcase)
     end
+
     matching.values
   end
 
   def parser(contents)
     contents.each do |row|
       district = row[:location]
+
       districts[district.to_sym] = District.new(name: district)
     end
   end
@@ -35,6 +38,7 @@ class DistrictRepository
     districts.each do |district_name, district|
       enrollment = er.find_by_name(district.name)
       district.get_enrollment(enrollment)
+
       district.enrollment
     end
   end
@@ -43,16 +47,16 @@ class DistrictRepository
     @er = EnrollmentRepository.new
       er.load_data({
         :enrollment => {
-          :kindergarten => "test/fixtures/Kindergartners in full-day program.csv",
-          :high_school_graduation => "test/fixtures/High school graduation rates.csv"
+          :kindergarten => "data/Kindergartners in full-day program.csv",
+          :high_school_graduation => "data/High school graduation rates.csv"
         }
       })
   end
 
   def load_data(district_data)
     kindergarten_csv = district_data.fetch(:enrollment).fetch(:kindergarten)
-    contents = CSV.open kindergarten_csv, headers: true,
-                                          header_converters: :symbol
+    contents = CSV.open(kindergarten_csv, headers: true, header_converters: :symbol)
+    
     parser(contents)
     make_a_enrollment_repo
     send_enrollments_out
