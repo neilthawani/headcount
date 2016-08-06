@@ -24,14 +24,6 @@ class DistrictRepository
     matching.values
   end
 
-  def parser(contents)
-    contents.each do |row|
-      district = row[:location]
-
-      districts[district.to_sym] = District.new(name: district)
-    end
-  end
-
   def send_enrollments_out
     districts.each do |district_name, district|
       enrollment = enrollment_repository.find_by_name(district.name)
@@ -62,7 +54,12 @@ class DistrictRepository
                         headers: true,
                         header_converters: :symbol)
 
-    parser(contents)
+    contents.each do |row|
+      district = row[:location]
+
+      districts[district.to_sym] = District.new(name: district)
+    end
+    
     make_a_enrollment_repo
     send_enrollments_out
   end
