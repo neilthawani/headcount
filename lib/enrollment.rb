@@ -1,6 +1,3 @@
-require 'pry'
-require_relative 'district'
-
 class Enrollment
   attr_accessor :name, :kindergarten_participation, :high_school_graduation_rates
 
