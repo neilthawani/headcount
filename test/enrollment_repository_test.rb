@@ -19,7 +19,7 @@ class EnrollmentRepositoryTest < Minitest::Test
       enrollment_repository.load_data({
         :enrollment_data => {
           :kindergarten_participation => fixture_path_kindergarten,
-          :high_school_graduation => fixture_path_high_school
+          :high_school_graduation_rates => fixture_path_high_school
         }
       })
       enrollment_repository

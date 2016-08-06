@@ -48,7 +48,7 @@ class DistrictRepository
       enrollment_repository.load_data({
         :enrollment_data => {
           :kindergarten_participation => "data/Kindergartners in full-day program.csv",
-          :high_school_graduation => "data/High school graduation rates.csv"
+          :high_school_graduation_rates => "data/High school graduation rates.csv"
         }
       })
   end
