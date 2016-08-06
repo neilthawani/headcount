@@ -53,9 +53,8 @@ class DistrictRepository
       })
   end
 
-  def load_data(district_repository_data)
-    kindergarten_csv = district_repository_data.fetch(:enrollment_data).fetch(:kindergarten_participation)
-    contents = CSV.open(kindergarten_csv, headers: true, header_converters: :symbol)
+  def load_data(kindergarten_csv_path)
+    contents = CSV.open(kindergarten_csv_path, headers: true, header_converters: :symbol)
 
     parser(contents)
     make_a_enrollment_repo

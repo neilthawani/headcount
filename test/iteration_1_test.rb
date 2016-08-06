@@ -5,18 +5,14 @@ require_relative "../lib/district_repository"
 require_relative "../lib/enrollment_repository"
 
 class IterationOneTest < Minitest::Test
-  def fixture_path
+  def kindergarten_data_fixture_path
     File.expand_path("fixtures/Kindergartners in full-day program.csv", __dir__)
   end
 
   def setup
     @district_repository ||= begin
       district_repository = DistrictRepository.new
-      district_repository.load_data({
-        :enrollment_data => {
-          :kindergarten_participation => fixture_path
-        }
-       })
+      district_repository.load_data(kindergarten_data_fixture_path)
        district_repository
     end
   end
