@@ -38,8 +38,6 @@ class DistrictRepository
     districts.each do |district_name, district|
       enrollment = enrollment_repository.find_by_name(district.name)
       district.send("enrollment_data=", enrollment)
-
-      district.enrollment_data
     end
   end
 
