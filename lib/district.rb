@@ -1,3 +1,5 @@
+require 'pry'
+
 class District
   attr_reader :name
   attr_accessor :enrollment_data
@@ -6,25 +8,11 @@ class District
     @name = name[:name]
   end
 
-  def calculate_kindergarten_participation_average
-    participation_values = enrollment_data.kindergarten_participation.values
-    total_enrollment = participation_values.reduce(:+)
+  def calculate_field_average(enrollment_key)
+    values = enrollment_data.send(enrollment_key).values
+    values_sum = values.reduce(:+)
 
-    average_district_percentage = total_enrollment / participation_values.count
-    average_district_percentage.round(3)
-   end
-
-  def calculate_hs_grad_average
-    if enrollment_data.high_school_graduation_rates == nil
-      grad_rates = 0.5
-    else
-      grad_rates = enrollment_data.high_school_graduation_rates.values
-
-      total_grad_rate = grad_rates.map {|grad_rate| grad_rate.to_f }.reduce(:+)
-
-      average_grad_rate = total_grad_rate / grad_rates.count
-
-      average_grad_rate.round(3)
-    end
+    average_value_distribution = values_sum / values.count
+    average_value_distribution.round(3)
   end
 end

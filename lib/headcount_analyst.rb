@@ -14,7 +14,7 @@ class HeadcountAnalyst
   end
 
   def district_kinder_avg(district)
-    district_repository.find_by_name(district).calculate_kindergarten_participation_average
+    district_repository.find_by_name(district).calculate_field_average(:kindergarten_participation)
   end
 
   def kindergarten_participation_rate_variation_trend(district_1, district_2)
@@ -50,7 +50,7 @@ class HeadcountAnalyst
   end
 
   def hs_grad_average(district)
-    district_repository.find_by_name(district).calculate_hs_grad_average
+    district_repository.find_by_name(district).calculate_field_average(:high_school_graduation_rates)
   end
 
   def kindergarten_participation_correlates_with_high_school_graduation(for_district, against_district = "COLORADO")
