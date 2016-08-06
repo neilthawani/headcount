@@ -11,26 +11,22 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_rate_variation(district_1, district_2)
-    district1 = district_1_kinder_avg(district_1)
+    district1 = district_kinder_avg(district_1)
 
-    district2 = district_2_kinder_avg(district_2)
+    district2 = district_kinder_avg(district_2[:against])
 
     variation = (district1/district2).round(3)
   end
 
-  def district_1_kinder_avg(district)
+  def district_kinder_avg(district)
     district_repository.find_by_name(district).calculate_kinder_average
-  end
-
-  def district_2_kinder_avg(district)
-    district_repository.find_by_name(district[:against]).calculate_kinder_average
   end
 
   def kindergarten_participation_rate_variation_trend(district_1, district_2)
     district_trend = Hash.new
 
-    district1 = district_1_kinder_participation(district_1)
-    district2 = district_2_kinder_state_participation(district_2)
+    district1 = district_kinder_participation(district_1)
+    district2 = district_kinder_participation(district_2[:against])
 
     district1.each do |year, participation|
       district_trend[year.to_i] = (district1[year].to_f/ district2[year].to_f).round(3)
@@ -38,12 +34,8 @@ class HeadcountAnalyst
     district_trend
   end
 
-  def district_1_kinder_participation(district)
+  def district_kinder_participation(district)
     district_repository.find_by_name(district).enrollment.kindergarten_participation
-  end
-
-  def district_2_kinder_state_participation(district)
-    district_repository.find_by_name(district[:against]).enrollment.kindergarten_participation
   end
 
   def kindergarten_participation_against_high_school_graduation(district, hash = {against: "COLORADO"})
@@ -55,20 +47,16 @@ class HeadcountAnalyst
     kinder_grad_variance = (kinder_variation/grad_variation).round(3)
   end
 
-  def hs_1_grad_average(district)
-    district_repository.find_by_name(district).calculate_hs_grad_average
-  end
-
-  def hs_2_grad_average(district)
-    district_repository.find_by_name(district[:against]).calculate_hs_grad_average
-  end
-
   def high_school_graduation_variation(district_1, district_2)
-    hs_1 = hs_1_grad_average(district_1)
+    hs_1 = hs_grad_average(district_1)
 
-    hs_2 = hs_2_grad_average(district_2)
+    hs_2 = hs_grad_average(district_2[:against])
 
     variation = (hs_1/hs_2).round(3)
+  end
+
+  def hs_grad_average(district)
+    district_repository.find_by_name(district).calculate_hs_grad_average
   end
 
   def kindergarten_participation_correlates_with_high_school_graduation(for_hash, hash = {against: "COLORADO"})
