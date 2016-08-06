@@ -39,7 +39,9 @@ class DistrictRepository
                         headers: true,
                         header_converters: :symbol)
 
-    # loader
+    # set class variable of type hash "districts" to
+    # key: district's name.to_sym,
+    # value: district object with name instance var set
     contents.each do |row|
       district = row[:location]
 
