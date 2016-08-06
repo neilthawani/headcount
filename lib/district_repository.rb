@@ -16,10 +16,12 @@ class DistrictRepository
     pair && pair[1]
   end
 
-  def find_all_matching(name_fragment)
+  def find_all_districts_matching_name(name_fragment)
     matching = districts.select do |_key, value|
       value.name.upcase.include?(name_fragment.upcase)
     end
+
+    # binding.pry
 
     matching.values
   end
@@ -59,7 +61,7 @@ class DistrictRepository
 
       districts[district.to_sym] = District.new(name: district)
     end
-    
+
     make_a_enrollment_repo
     send_enrollments_out
   end

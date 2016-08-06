@@ -34,8 +34,8 @@ class DistrictRepositoryTest < Minitest::Test
     assert @district_repository.respond_to?(:find_by_name)
   end
 
-  def test_is_there_a_find_all_matching_method
-    assert @district_repository.respond_to?(:find_all_matching)
+  def test_is_there_a_find_all_districts_matching_name_method
+    assert @district_repository.respond_to?(:find_all_districts_matching_name)
   end
 
   def test_find_by_name_returns_district
@@ -66,30 +66,30 @@ class DistrictRepositoryTest < Minitest::Test
     assert_equal nil, @district_repository.find_by_name("zom--bo-*com")
   end
 
-  def test_does_find_all_matching_return_all_cases
-    matched_objects = @district_repository.find_all_matching("AGATE 300")
+  def test_does_find_all_districts_matching_name_return_all_cases
+    matched_objects = @district_repository.find_all_districts_matching_name("AGATE 300")
     matched_names = matched_objects.map(&:name)
     assert_equal ["AGATE 300"], matched_names
   end
 
-  def test_does_find_all_matching_with_name_fragments_return_values
-    matched_objects = @district_repository.find_all_matching("AGA")
+  def test_does_find_all_districts_matching_name_with_name_fragments_return_values
+    matched_objects = @district_repository.find_all_districts_matching_name("AGA")
     matched_names = matched_objects.map(&:name)
     assert_equal ["AGATE 300"], matched_names
   end
 
-  def test_does_find_all_matching_work_case_insensitive_for_one_result
-    matched_objects = @district_repository.find_all_matching("aga")
+  def test_does_find_all_districts_matching_name_work_case_insensitive_for_one_result
+    matched_objects = @district_repository.find_all_districts_matching_name("aga")
     matched_names = matched_objects.map(&:name)
     assert_equal ["AGATE 300"], matched_names
   end
 
-  def test_does_find_all_matching_work_with_no_input
-    assert_equal [], @district_repository.find_all_matching("  ")
+  def test_does_find_all_districts_matching_name_work_with_no_input
+    assert_equal [], @district_repository.find_all_districts_matching_name("  ")
   end
 
-  def test_does_find_all_matching_work_with_case_for_multiple_results
-    matched_objects = @district_repository.find_all_matching("cen")
+  def test_does_find_all_districts_matching_name_work_with_case_for_multiple_results
+    matched_objects = @district_repository.find_all_districts_matching_name("cen")
     matched_names = matched_objects.map(&:name)
     assert_equal ["CENTENNIAL R-1", "CENTER 26 JT"], matched_names
   end
