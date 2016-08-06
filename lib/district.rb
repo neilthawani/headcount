@@ -1,5 +1,5 @@
-require_relative 'enrollment'
-require 'bigdecimal'
+# require_relative 'enrollment'
+
 class District
   attr_reader :name
   attr_accessor :enrollment_data
