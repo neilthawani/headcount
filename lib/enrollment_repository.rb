@@ -3,8 +3,6 @@ require_relative "enrollment"
 require_relative "district"
 
 class EnrollmentRepository
-  attr_accessor :enrollments
-
   def initialize
     @enrollments = {}
   end
@@ -21,27 +19,28 @@ class EnrollmentRepository
 
         collection[location] ||= Hash.new
         collection[location][timeframe] = data[0..4].to_f
-      end
+      end # CSV.foreach
 
       collection.each do |location, data|
         enrollment = Enrollment.new(name: location,
                                     key_path_hash.keys[0] => data)
-        if enrollments[location]
-            enrollments[location].send("#{key_path_hash.keys[0].to_s}=", data)
+        if @enrollments[location]
+          @enrollments[location].send("#{key_path_hash.keys[0].to_s}=", data)
         else
-            enrollments[location] = enrollment
-        end
-      end
-    end
-  end
+          @enrollments[location] = enrollment
+        end # if enrollments[location]
+      end # collection.each
+    end # array_of_attr_path_hashes.each
+  end # load_data
 
   def find_by_name(name)
     if name.nil?
       nil
     else
-      enrollment = enrollments.find do |element|
-       element[1].name.downcase == name.downcase
-    end
+      enrollment = @enrollments.find do |element|
+        element[1].name.downcase == name.downcase
+      end
+
       enrollment && enrollment[1]
     end
   end
