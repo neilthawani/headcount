@@ -19,11 +19,11 @@ class EnrollmentRepositoryTest < Minitest::Test
   end
 
   def setup
-    file_paths = [kindergarten_participation_access_hash, hs_graduation_rate_access_hash]
+    key_and_filepath_array_of_hashes = [kindergarten_participation_access_hash, hs_graduation_rate_access_hash]
 
     @enrollment_repository ||= begin
       enrollment_repository = EnrollmentRepository.new
-      enrollment_repository.load_data(file_paths)
+      enrollment_repository.load_data(key_and_filepath_array_of_hashes)
       enrollment_repository
     end
   end

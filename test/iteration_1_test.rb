@@ -25,5 +25,4 @@ class IterationOneTest < Minitest::Test
     district = @district_repository.find_by_name("ACADEMY 20")
     assert_equal 0.436, district.enrollment.kindergarten_participation[2010]
   end
-
 end
