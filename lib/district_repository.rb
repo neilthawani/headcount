@@ -4,7 +4,7 @@ require_relative "district"
 require_relative "enrollment_repository"
 
 class DistrictRepository
-  attr_reader :districts, :er, :enrollment
+  attr_reader :districts, :enrollment_repository, :enrollment
 
   def initialize
     @districts = {}
@@ -36,7 +36,7 @@ class DistrictRepository
 
   def send_enrollments_out
     districts.each do |district_name, district|
-      enrollment = er.find_by_name(district.name)
+      enrollment = enrollment_repository.find_by_name(district.name)
       district.get_enrollment(enrollment)
 
       district.enrollment
@@ -44,8 +44,8 @@ class DistrictRepository
   end
 
   def make_a_enrollment_repo
-    @er = EnrollmentRepository.new
-      er.load_data({
+    @enrollment_repository = EnrollmentRepository.new
+      enrollment_repository.load_data({
         :enrollment => {
           :kindergarten => "data/Kindergartners in full-day program.csv",
           :high_school_graduation => "data/High school graduation rates.csv"
@@ -56,7 +56,7 @@ class DistrictRepository
   def load_data(district_data)
     kindergarten_csv = district_data.fetch(:enrollment).fetch(:kindergarten)
     contents = CSV.open(kindergarten_csv, headers: true, header_converters: :symbol)
-    
+
     parser(contents)
     make_a_enrollment_repo
     send_enrollments_out
