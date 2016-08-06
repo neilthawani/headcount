@@ -31,7 +31,7 @@ class EnrollmentRepository
             enrollment = Enrollment.new(name: location,
                                            percentages.to_sym => data)
         if enrollments[location]
-            enrollments[location].school_data[percentages.to_sym] = data
+            enrollments[location].send("#{percentages}=", data)
         else
             enrollments[location] = enrollment
         end

@@ -26,7 +26,7 @@ class District
    end
 
   def calculate_hs_grad_average
-    if enrollment.school_data[:high_school_graduation_rates] == nil
+    if enrollment.high_school_graduation_rates == nil
       grad_rates = 0.5
     else
       grad_rates = enrollment.high_school_graduation_rates.values

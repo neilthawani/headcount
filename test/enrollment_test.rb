@@ -26,7 +26,7 @@ class EnrollmentTest < Minitest::Test
       2010 => 0.3915,
       2011 => 0.35356,
       2012 => 0.1234
-                 }, enrollment.kindergarten_participation_in_year)
+                 }, enrollment.kindergarten_participation)
   end
 
   def test_it_can_get_kindergarten_participation_by_year_by_year
@@ -36,7 +36,7 @@ class EnrollmentTest < Minitest::Test
                                   2011 => 0.35356,
                                   2012 => 0.1234 },
                                )
-    assert_equal(0.3915, enrollment.kindergarten_participation_in_year(2010))
+    assert_equal(0.3915, enrollment.kindergarten_participation[2010])
   end
 
   def test_it_returns_nil_for_participation_by_year_by_year_that_dne
@@ -46,6 +46,6 @@ class EnrollmentTest < Minitest::Test
                                   2011 => 0.35356,
                                   2012 => 0.1234 },
                                )
-    assert_equal(nil, enrollment.kindergarten_participation_in_year(2009))
+    assert_equal(nil, enrollment.kindergarten_participation[2009])
   end
 end
