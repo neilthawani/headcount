@@ -5,8 +5,6 @@ require_relative "../lib/district_repository"
 require_relative "../lib/enrollment_repository"
 
 class IterationOneTest < Minitest::Test
-  attr_reader :district_repository
-
   def fixture_path
     File.expand_path("fixtures/Kindergartners in full-day program.csv", __dir__)
   end
@@ -23,8 +21,12 @@ class IterationOneTest < Minitest::Test
     end
   end
 
+  def teardown
+    @district_repository = nil
+  end
+
   def test_starting_relationship_layer
-    district = district_repository.find_by_name("ACADEMY 20")
+    district = @district_repository.find_by_name("ACADEMY 20")
     assert_equal 0.436, district.enrollment.kindergarten_participation[2010]
   end
 
