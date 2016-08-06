@@ -51,7 +51,7 @@ class DistrictRepository
                   hs_graduation_rate_access_hash]
 
     @enrollment_repository = EnrollmentRepository.new
-    enrollment_repository.load_data(file_paths)
+    enrollment_repository.load_enrollment_data(file_paths)
     
     # send enrollments out
     districts.each do |district_name, district|

@@ -21,7 +21,7 @@ class EnrollmentRepositoryTest < Minitest::Test
 
     @enrollment_repository ||= begin
       enrollment_repository = EnrollmentRepository.new
-      enrollment_repository.load_data(key_and_filepath_array_of_hashes)
+      enrollment_repository.load_enrollment_data(key_and_filepath_array_of_hashes)
       enrollment_repository
     end
   end
