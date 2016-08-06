@@ -21,16 +21,7 @@ class DistrictRepository
       value.name.upcase.include?(name_fragment.upcase)
     end
 
-    # binding.pry
-
     matching.values
-  end
-
-  def send_enrollments_out
-    districts.each do |district_name, district|
-      enrollment = enrollment_repository.find_by_name(district.name)
-      district.send("enrollment_data=", enrollment)
-    end
   end
 
   def kindergarten_participation_access_hash
@@ -63,6 +54,10 @@ class DistrictRepository
     end
 
     make_a_enrollment_repo
-    send_enrollments_out
+    
+    districts.each do |district_name, district|
+      enrollment = enrollment_repository.find_by_name(district.name)
+      district.send("enrollment_data=", enrollment)
+    end
   end
 end
