@@ -61,7 +61,7 @@ class HeadCountAnalystTest < Minitest::Test
   end
 
   def test_does_kinder_participation_correlate
-    assert_equal true, @headcount_analyst.kindergarten_participation_correlates_with_high_school_graduation('ACADEMY 20')
+    assert_equal true, @headcount_analyst.does_kindergarten_participation_correlate_with_high_school_graduation('ACADEMY 20')
   end
 
   def test_do_statewide_percentages_correlate_with_grad_rates
