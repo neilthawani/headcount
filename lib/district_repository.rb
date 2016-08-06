@@ -2,10 +2,17 @@ require "csv"
 require_relative "enrollment_repository"
 
 class DistrictRepository
-  attr_reader :districts, :enrollment_repository, :enrollment
+  attr_reader :districts, :enrollment
 
   def initialize
     @districts = {}
+
+    # make enrollment repo
+    file_paths = [kindergarten_participation_access_hash,
+                  hs_graduation_rate_access_hash]
+
+    @enrollment_repository = EnrollmentRepository.new
+    @enrollment_repository.load_enrollment_data(file_paths)
   end
 
   def find_by_name(name)
@@ -48,16 +55,9 @@ class DistrictRepository
       districts[district.to_sym] = District.new(name: district)
     end
 
-    # make enrollment repo
-    file_paths = [kindergarten_participation_access_hash,
-                  hs_graduation_rate_access_hash]
-
-    @enrollment_repository = EnrollmentRepository.new
-    enrollment_repository.load_enrollment_data(file_paths)
-    
     # send enrollments out
     districts.each do |district_name, district|
-      enrollment = enrollment_repository.find_by_name(district.name)
+      enrollment = @enrollment_repository.find_by_name(district.name)
       district.send("enrollment_data=", enrollment)
     end
   end
