@@ -9,24 +9,25 @@ class EnrollmentRepository
     @enrollments = {}
   end
 
-  def hash_pathway
+  def load_data(district_participation_or_graduation_values)
     hash_pathway = {"kindergarten" => "kindergarten_participation",
                   "high_school_graduation" => "high_school_graduation_rates" }
-  end
 
-  def load_data(data)
     hash_pathway.each do |key, percentages|
       collection = Hash.new
+      csv_file = district_participation_or_graduation_values[:enrollment][key.to_sym]
 
-      CSV.foreach(data[:enrollment][key.to_sym],
-                       headers: true, header_converters: :symbol) do |row|
-        collection[row[:location]] ||= Hash.new
-        collection[row[:location]][row[:timeframe].to_i] = row[:data][0..4].to_f
+      CSV.foreach(csv_file, headers: true, header_converters: :symbol) do |row|
+        location = row[:location]
+        timeframe = row[:timeframe].to_i
+        data = row[:data]
+
+        collection[location] ||= Hash.new
+        collection[location][timeframe] = data[0..4].to_f
       end
 
       collection.each do |location, data|
-            enrollment = Enrollment.new(name: location,
-                                           percentages.to_sym => data)
+        enrollment = Enrollment.new(name: location, percentages.to_sym => data)
         if enrollments[location]
             enrollments[location].send("#{percentages}=", data)
         else
