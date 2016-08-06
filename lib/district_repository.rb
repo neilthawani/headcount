@@ -41,26 +41,26 @@ class DistrictRepository
 
   def kindergarten_participation_access_hash
     path = "data/Kindergartners in full-day program.csv"
-    
     { :kindergarten_participation => path }
-    
   end
 
   def hs_graduation_rate_access_hash
     path = "data/High school graduation rates.csv"
-
     { :high_school_graduation_rates => path }
   end
 
   def make_a_enrollment_repo
-    file_paths = [kindergarten_participation_access_hash, hs_graduation_rate_access_hash]
+    file_paths = [kindergarten_participation_access_hash,
+                  hs_graduation_rate_access_hash]
 
     @enrollment_repository = EnrollmentRepository.new
     enrollment_repository.load_data(file_paths)
   end
 
   def load_data(kindergarten_csv_path)
-    contents = CSV.open(kindergarten_csv_path, headers: true, header_converters: :symbol)
+    contents = CSV.open(kindergarten_csv_path,
+                        headers: true,
+                        header_converters: :symbol)
 
     parser(contents)
     make_a_enrollment_repo

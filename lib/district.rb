@@ -7,10 +7,10 @@ class District
   end
 
   def calculate_kinder_average
-    kindergarten_participation = enrollment_data.kindergarten_participation.values
-    total_enrollment = kindergarten_participation.reduce(:+)
+    participation_values = enrollment_data.kindergarten_participation.values
+    total_enrollment = participation_values.reduce(:+)
 
-    average_district_percentage = total_enrollment/kindergarten_participation.count
+    average_district_percentage = total_enrollment / participation_values.count
     average_district_percentage.round(3)
    end
 
