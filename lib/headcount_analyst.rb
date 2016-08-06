@@ -6,15 +6,14 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_rate_variation(district_1, district_2)
-    district1 = district_kinder_avg(district_1)
-
-    district2 = district_kinder_avg(district_2)
-
-    variation = (district1/district2).round(3)
+    district1 = kindergarten_participation_average(district_1)
+    district2 = kindergarten_participation_average(district_2)
+    
+    (district1/district2).round(3)
   end
 
-  def district_kinder_avg(district)
-    district_repository.find_by_name(district).calculate_field_average(:kindergarten_participation)
+  def kindergarten_participation_average(district)
+    @district_repository.find_by_name(district).calculate_field_average(:kindergarten_participation)
   end
 
   def kindergarten_participation_rate_variation_trend(district_1, district_2)
@@ -30,7 +29,7 @@ class HeadcountAnalyst
   end
 
   def district_kinder_participation(district)
-    district_repository.find_by_name(district).enrollment_data.kindergarten_participation
+    @district_repository.find_by_name(district).enrollment_data.kindergarten_participation
   end
 
   def kindergarten_participation_against_high_school_graduation(for_district, against_district = "COLORADO")
@@ -50,7 +49,7 @@ class HeadcountAnalyst
   end
 
   def hs_grad_average(district)
-    district_repository.find_by_name(district).calculate_field_average(:high_school_graduation_rates)
+    @district_repository.find_by_name(district).calculate_field_average(:high_school_graduation_rates)
   end
 
   def kindergarten_participation_correlates_with_high_school_graduation(for_district, against_district = "COLORADO")
@@ -72,7 +71,7 @@ class HeadcountAnalyst
 
   def statewide_kindergarten_participation_correlates_with_hs_graduation(hash)
     does_correlate = false
-    all_districts = district_repository.districts.map do |key, value|
+    all_districts = @district_repository.districts.map do |key, value|
       district_in_string = value.name
       high_school_graduation_variation(district_in_string, hash)
     end
