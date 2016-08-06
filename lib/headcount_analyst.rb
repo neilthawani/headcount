@@ -38,11 +38,11 @@ class HeadcountAnalyst
     district_repository.find_by_name(district).enrollment.kindergarten_participation
   end
 
-  def kindergarten_participation_against_high_school_graduation(district, hash = "COLORADO")
+  def kindergarten_participation_against_high_school_graduation(for_district, against_district = "COLORADO")
 
-    kinder_variation = kindergarten_participation_rate_variation(district, hash)
+    kinder_variation = kindergarten_participation_rate_variation(for_district, against_district)
 
-    grad_variation = high_school_graduation_variation(district, hash)
+    grad_variation = high_school_graduation_variation(for_district, against_district)
 
     kinder_grad_variance = (kinder_variation/grad_variation).round(3)
   end
