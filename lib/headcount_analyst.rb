@@ -5,14 +5,6 @@ class HeadcountAnalyst
     @district_repository = district_repository
   end
 
-  # def kindergarten_participation_rate_variation(district1_name, district2_name)
-  #   calculate_district_data_variation(district1_name, district2_name, :kindergarten_participation)
-  # end
-
-  # def high_school_graduation_variation(district1_name, district2_name)
-  #   calculate_district_data_variation(district1_name, district2_name, :high_school_graduation_rates)
-  # end
-
   def calculate_district_data_variation(district1_name, district2_name, key)
     district1 = calculate_district_field_average(district1_name, key)
     district2 = calculate_district_field_average(district2_name, key)
