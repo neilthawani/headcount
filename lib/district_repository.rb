@@ -6,13 +6,6 @@ class DistrictRepository
 
   def initialize
     @districts = {}
-
-    # make enrollment repo
-    file_paths = [kindergarten_participation_access_hash,
-                  hs_graduation_rate_access_hash]
-
-    @enrollment_repository = EnrollmentRepository.new
-    @enrollment_repository.load_enrollment_data(file_paths)
   end
 
   def find_by_name(name)
@@ -41,7 +34,18 @@ class DistrictRepository
     { :high_school_graduation_rates => path }
   end
 
+  def create_enrollment_repository
+    # create enrollment repo to fetch data from
+    file_paths = [kindergarten_participation_access_hash,
+                  hs_graduation_rate_access_hash]
+
+    @enrollment_repository = EnrollmentRepository.new
+    @enrollment_repository.load_enrollment_data(file_paths)
+  end
+
   def load_district_data(csv_filepath)
+    create_enrollment_repository
+    
     contents = CSV.open(csv_filepath,
                         headers: true,
                         header_converters: :symbol)
