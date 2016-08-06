@@ -11,6 +11,7 @@ class DistrictRepositoryTest < Minitest::Test
   def district_repository
     @district_repository ||= begin
       district_repository = DistrictRepository.new
+
       district_repository.load_data({
         :enrollment => {
           :kindergarten => fixture_path
@@ -45,11 +46,11 @@ class DistrictRepositoryTest < Minitest::Test
     assert_equal "ADAMS COUNTY 14", district_repository.find_by_name("ADAMS COUNTY 14").name
   end
 
-  def test_does_it_capitalize
+  def test_does_it_return_the_name_capitalized
     assert_equal "ACADEMY 20", district_repository.find_by_name("academy 20").name
   end
 
-  def test_can_it_find_a_name_with_white_space
+  def test_can_it_find_a_name_with_trailing_white_space
     assert_equal "ACADEMY 20", district_repository.find_by_name(" academy 20 ").name
   end
 
@@ -67,7 +68,7 @@ class DistrictRepositoryTest < Minitest::Test
 
   def test_does_find_all_matching_return_all_cases
     matched_objects = district_repository.find_all_matching("AGATE 300")
-    matched_names = matched_objects.map(&:name) # .map { |object| object.name }
+    matched_names = matched_objects.map(&:name)
     assert_equal ["AGATE 300"], matched_names
   end
 
@@ -77,7 +78,7 @@ class DistrictRepositoryTest < Minitest::Test
     assert_equal ["AGATE 300"], matched_names
   end
 
-  def test_does_find_all_matching_work_case_insensitive
+  def test_does_find_all_matching_work_case_insensitive_for_one_result
     matched_objects = district_repository.find_all_matching("aga")
     matched_names = matched_objects.map(&:name)
     assert_equal ["AGATE 300"], matched_names
@@ -87,7 +88,7 @@ class DistrictRepositoryTest < Minitest::Test
     assert_equal [], district_repository.find_all_matching("  ")
   end
 
-  def test_does_find_all_matching_work_with_case_insensitivity
+  def test_does_find_all_matching_work_with_case_for_multiple_results
     matched_objects = district_repository.find_all_matching("cen")
     matched_names = matched_objects.map(&:name)
     assert_equal ["CENTENNIAL R-1", "CENTER 26 JT"], matched_names

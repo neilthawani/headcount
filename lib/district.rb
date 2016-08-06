@@ -5,7 +5,6 @@ class District
 
   def initialize(name)
     @name = name[:name]
-
   end
 
   def enrollment
