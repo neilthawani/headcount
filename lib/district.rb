@@ -6,7 +6,7 @@ class District
     @name = name[:name]
   end
 
-  def calculate_kinder_average
+  def calculate_kindergarten_participation_average
     participation_values = enrollment_data.kindergarten_participation.values
     total_enrollment = participation_values.reduce(:+)
 
@@ -22,7 +22,7 @@ class District
 
       total_grad_rate = grad_rates.map {|grad_rate| grad_rate.to_f }.reduce(:+)
 
-      average_grad_rate = total_grad_rate/grad_rates.count
+      average_grad_rate = total_grad_rate / grad_rates.count
 
       average_grad_rate.round(3)
     end
