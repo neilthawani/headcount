@@ -65,15 +65,15 @@ class HeadCountAnalystTest < Minitest::Test
   end
 
   def test_does_kinder_participation_correlate
-    assert_equal true, @headcount_analyst.kindergarten_participation_correlates_with_high_school_graduation(nil, 'ACADEMY 20')
+    assert_equal true, @headcount_analyst.kindergarten_participation_correlates_with_high_school_graduation('ACADEMY 20')
   end
 
   def test_do_statewide_percentages_correlate_with_grad_rates
-    assert_equal true, @headcount_analyst.kindergarten_participation_correlates_with_high_school_graduation(nil, 'STATEWIDE')
+    assert_equal true, @headcount_analyst.kindergarten_participation_correlates_with_high_school_graduation('STATEWIDE')
   end
 
   def test_does_kinder_participation_correlate_with_a_subset_of_districts
     districts = ['ACADEMY 20','ADAMS COUNTY 14', 'ADAMS-ARAPAHOE 28J', 'AGUILAR REORGANIZED 6']
-    assert_equal true, @headcount_analyst.kindergarten_participation_correlates_with_high_school_graduation(districts, nil)
+    assert_equal true, @headcount_analyst.kindergarten_participation_correlates_with_high_school_graduation_across_subset_of_districts(districts, "COLORADO")
   end
 end

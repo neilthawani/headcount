@@ -59,18 +59,16 @@ class HeadcountAnalyst
     district_repository.find_by_name(district).calculate_hs_grad_average
   end
 
-  def kindergarten_participation_correlates_with_high_school_graduation(across_array, for_district, against_district = "COLORADO")
+  def kindergarten_participation_correlates_with_high_school_graduation(for_district, against_district = "COLORADO")
     if for_district == 'STATEWIDE'
       statewide(against_district)
-    elsif across_array.class == Array
-      subset_of_districts(across_array, against_district)
     else
       does_it_correlate = high_school_graduation_variation(for_district, against_district)
       does_it_correlate.between?(0.6,1.5)
     end
   end
 
-  def subset_of_districts(across_array, against_district)
+  def kindergarten_participation_correlates_with_high_school_graduation_across_subset_of_districts(across_array, against_district)
     x = across_array.map do |district|
       variations = high_school_graduation_variation(district, against_district)
       variations.between?(0.6,1.5)
