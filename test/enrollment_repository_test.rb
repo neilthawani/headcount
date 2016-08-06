@@ -5,23 +5,25 @@ require "pry"
 require "enrollment"
 
 class EnrollmentRepositoryTest < Minitest::Test
-  def fixture_path_kindergarten
-    File.expand_path("fixtures/Kindergartners in full-day program.csv", __dir__)
+  def kindergarten_participation_access_hash
+    path = File.expand_path("fixtures/Kindergartners in full-day program.csv", __dir__)
+    
+    { :kindergarten_participation => path }
+    
   end
 
-  def fixture_path_high_school
-    File.expand_path("fixtures/High school graduation rates.csv", __dir__)
+  def hs_graduation_rate_access_hash
+    path = File.expand_path("fixtures/High school graduation rates.csv", __dir__)
+
+    { :high_school_graduation_rates => path }
   end
 
   def enrollment_repository
+    file_paths = [kindergarten_participation_access_hash, hs_graduation_rate_access_hash]
+
     @enrollment_repository ||= begin
       enrollment_repository = EnrollmentRepository.new
-      enrollment_repository.load_data({
-        :enrollment_data => {
-          :kindergarten_participation => fixture_path_kindergarten,
-          :high_school_graduation_rates => fixture_path_high_school
-        }
-      })
+      enrollment_repository.load_data(file_paths)
       enrollment_repository
     end
   end

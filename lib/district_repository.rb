@@ -43,14 +43,24 @@ class DistrictRepository
     end
   end
 
+  def kindergarten_participation_access_hash
+    path = "data/Kindergartners in full-day program.csv"
+    
+    { :kindergarten_participation => path }
+    
+  end
+
+  def hs_graduation_rate_access_hash
+    path = "data/High school graduation rates.csv"
+
+    { :high_school_graduation_rates => path }
+  end
+
   def make_a_enrollment_repo
+    file_paths = [kindergarten_participation_access_hash, hs_graduation_rate_access_hash]
+
     @enrollment_repository = EnrollmentRepository.new
-      enrollment_repository.load_data({
-        :enrollment_data => {
-          :kindergarten_participation => "data/Kindergartners in full-day program.csv",
-          :high_school_graduation_rates => "data/High school graduation rates.csv"
-        }
-      })
+    enrollment_repository.load_data(file_paths)
   end
 
   def load_data(kindergarten_csv_path)
