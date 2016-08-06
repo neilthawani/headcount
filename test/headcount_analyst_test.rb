@@ -69,7 +69,7 @@ class HeadCountAnalystTest < Minitest::Test
   end
 
   def test_do_statewide_percentages_correlate_with_grad_rates
-    assert_equal true, @headcount_analyst.kindergarten_participation_correlates_with_high_school_graduation('STATEWIDE')
+    assert_equal true, @headcount_analyst.statewide_kindergarten_participation_correlates_with_hs_graduation('COLORADO')
   end
 
   def test_does_kinder_participation_correlate_with_a_subset_of_districts

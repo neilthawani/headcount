@@ -60,12 +60,8 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_correlates_with_high_school_graduation(for_district, against_district = "COLORADO")
-    if for_district == 'STATEWIDE'
-      statewide(against_district)
-    else
-      does_it_correlate = high_school_graduation_variation(for_district, against_district)
-      does_it_correlate.between?(0.6,1.5)
-    end
+    does_it_correlate = high_school_graduation_variation(for_district, against_district)
+    does_it_correlate.between?(0.6,1.5)
   end
 
   def kindergarten_participation_correlates_with_high_school_graduation_across_subset_of_districts(across_array, against_district)
@@ -81,7 +77,7 @@ class HeadcountAnalyst
     end
   end
 
-  def statewide(hash)
+  def statewide_kindergarten_participation_correlates_with_hs_graduation(hash)
     all_districts = district_repository.districts.map do |key, value|
       district_in_string = value.name
       high_school_graduation_variation(district_in_string, hash)
