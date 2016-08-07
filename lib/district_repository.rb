@@ -45,7 +45,7 @@ class DistrictRepository
 
   def load_district_data(csv_filepath)
     create_enrollment_repository
-    
+
     contents = CSV.open(csv_filepath,
                         headers: true,
                         header_converters: :symbol)
@@ -59,7 +59,7 @@ class DistrictRepository
       districts[district.to_sym] = District.new(name: district)
     end
 
-    # iterate through each district and 
+    # iterate through each district and
     # fetch its data from the enrollment repo
     # set each object in the districts collection's enrollment_data
     districts.each do |district_name, district|

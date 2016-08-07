@@ -25,7 +25,8 @@ class EnrollmentRepository
         enrollment = Enrollment.new(name: district_name,
                                     key_path_hash.keys[0] => data)
         if @enrollments[district_name]
-          @enrollments[district_name].send("#{key_path_hash.keys[0].to_s}=", data)
+          enrollment_data_key = "#{key_path_hash.keys[0].to_s}="
+          @enrollments[district_name].send(enrollment_data_key, data)
         else
           @enrollments[district_name] = enrollment
         end # if enrollments[district_name]
