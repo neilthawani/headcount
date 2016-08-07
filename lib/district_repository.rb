@@ -35,7 +35,6 @@ class DistrictRepository
   end
 
   def create_enrollment_repository
-    # create enrollment repo to fetch data from
     file_paths = [kindergarten_participation_access_hash,
                   hs_graduation_rate_access_hash]
 
