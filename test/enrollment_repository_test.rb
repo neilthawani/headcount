@@ -1,77 +1,91 @@
 require "minitest/autorun"
 require "minitest/pride"
 require "enrollment_repository"
-require "pry"
-require "enrollment"
 
 class EnrollmentRepositoryTest < Minitest::Test
-  def fixture_path  
-    File.expand_path("fixtures/Kindergartners in full-day program.csv", __dir__)
+  def kindergarten_participation_access_hash
+    path = File.expand_path("fixtures/Kindergartners in full-day program.csv", __dir__)
+    
+    { :kindergarten_participation => path }
+    
   end
 
-  def fixture_path_high_school
-    File.expand_path("fixtures/High school graduation rates.csv", __dir__)
+  def hs_graduation_rate_access_hash
+    path = File.expand_path("fixtures/High school graduation rates.csv", __dir__)
+
+    { :high_school_graduation_rates => path }
   end
 
-  def er
-    @er ||= begin
-      er = EnrollmentRepository.new
-      er.load_data({
-        :enrollment => {
-          :kindergarten => fixture_path,
-          :high_school_graduation => fixture_path_high_school
-        }
-      })
-      er
+  def setup
+    key_and_filepath_array_of_hashes = [kindergarten_participation_access_hash, hs_graduation_rate_access_hash]
+
+    @enrollment_repository ||= begin
+      enrollment_repository = EnrollmentRepository.new
+      enrollment_repository.load_enrollment_data(key_and_filepath_array_of_hashes)
+      enrollment_repository
     end
   end
+
+  def teardown
+    @enrollment_repository = nil
+  end
+
   def test_it_can_find_an_enrollment_object
-    assert_kind_of Enrollment, er.find_by_name("ACADEMY 20")
+    assert_kind_of Enrollment, @enrollment_repository.find_by_name("ACADEMY 20")
   end
 
   def test_it_does_not_generate_new_objects_using_find
-    enrollment = er.find_by_name("ACADEMY 20")
-    assert_equal(er.find_by_name("ACADEMY 20").object_id, enrollment.object_id)
+    enrollment = @enrollment_repository.find_by_name("ACADEMY 20")
+
+    assert_equal(@enrollment_repository.find_by_name("ACADEMY 20").object_id, enrollment.object_id)
   end
 
   def test_it_finds_by_name
-    enrollment = er.find_by_name("ACADEMY 20")
+    enrollment = @enrollment_repository.find_by_name("ACADEMY 20")
+
     assert_equal("ACADEMY 20", enrollment.name)
   end
 
   def test_it_finds_truncated_participation_data
-    enrollment = er.find_by_name("ACADEMY 20")
-    assert_equal({ 2007 => 0.391, 2006 => 0.353, 2005 => 0.267,
+    expected_kindergarten_participation = 
+                  { 2007 => 0.391, 2006 => 0.353, 2005 => 0.267,
                    2004 => 0.302, 2008 => 0.384, 2009 => 0.39,
                    2010 => 0.436, 2011 => 0.489, 2012 => 0.478,
-                   2013 => 0.487, 2014 => 0.490 },
-                 enrollment.kindergarten_participation)
+                   2013 => 0.487, 2014 => 0.490 }
+
+    enrollment = @enrollment_repository.find_by_name("ACADEMY 20")
+
+    assert_equal(expected_kindergarten_participation, enrollment.kindergarten_participation)
   end
 
-  def test_it_is_not_case_sensitive_for_search
-    enrollment = er.find_by_name("coloRADo")
+  def test_find_by_name_is_not_case_sensitive
+    enrollment = @enrollment_repository.find_by_name("coloRADo")
+
     assert_equal("Colorado", enrollment.name)
   end
 
-  def test_it_returns_nil_for_no_input
-    enrollment = er.find_by_name(nil)
+  def test_find_by_name_returns_nil_for_no_input
+    enrollment = @enrollment_repository.find_by_name(nil)
+
     assert_equal(nil, enrollment)
   end
 
-  def test_it_returns_nil_with_random_special_characters
-    enrollment = er.find_by_name("Colo*!^*@#rado")
+  def test_find_by_name_returns_nil_with_random_special_characters
+    enrollment = @enrollment_repository.find_by_name("Colo*!^*@#rado")
+
     assert_equal(nil, enrollment)
   end
 
   def test_graduation_rate_by_year
-    enrollment = er.find_by_name("ADAMS COUNTY 14")
-    grad_rate = {2010=>0.57, 2011=>0.608, 2012=>0.633, 2013=>0.593, 2014=>0.659}
+    expected_grad_rate = {2010=>0.57, 2011=>0.608, 2012=>0.633, 2013=>0.593, 2014=>0.659}
+    enrollment = @enrollment_repository.find_by_name("ADAMS COUNTY 14")
 
-    assert_equal grad_rate, enrollment.graduation_rate_by_year
+    assert_equal expected_grad_rate, enrollment.high_school_graduation_rates
   end
 
   def test_graduation_rate_in_year
-    enrollment = er.find_by_name("ADAMS COUNTY 14")
-    assert_equal 0.57, enrollment.graduation_rate_in_year(2010)
+    enrollment = @enrollment_repository.find_by_name("ADAMS COUNTY 14")
+    
+    assert_equal 0.57, enrollment.high_school_graduation_rates[2010]
   end
 end

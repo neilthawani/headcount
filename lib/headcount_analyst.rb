@@ -1,109 +1,82 @@
-require_relative 'district_repository'
-require_relative 'enrollment'
-require_relative 'enrollment_repository'
-require 'pry'
-
 class HeadcountAnalyst
-  attr_reader :dr
+  attr_reader :district_repository
 
-  def initialize(dr)
-    @dr = dr
+  def initialize(district_repository)
+    @district_repository = district_repository
   end
 
-  def kindergarten_participation_rate_variation(district_1, district_2)
-    district1 = district_1_kinder_avg(district_1)
+  def calculate_kinder_to_hs_retention_variation(district1_name, district2_name = "COLORADO")
+    kindergarten_variation = calculate_data_variation(
+                                district1_name,
+                                district2_name,
+                                :kindergarten_participation)
 
-    district2 = district_2_kinder_avg(district_2)
+    high_school_variation = calculate_data_variation(
+                                district1_name,
+                                district2_name,
+                                :high_school_graduation_rates)
 
-    variation = (district1/district2).round(3)
+    (kindergarten_variation / high_school_variation).round(3)
   end
 
-  def district_1_kinder_avg(district)
-    dr.find_by_name(district).calculate_kinder_average
+  def calculate_data_variation(district1_name, district2_name, key)
+    district1 = calculate_district_field_average(district1_name, key)
+    district2 = calculate_district_field_average(district2_name, key)
+
+    (district1 / district2).round(3)
   end
 
-  def district_2_kinder_avg(district)
-    dr.find_by_name(district[:against]).calculate_kinder_average
+  def calculate_district_field_average(district, key)
+    district_data = @district_repository.find_by_name(district)
+    district_data.calculate_field_average(key)
   end
 
-  def kindergarten_participation_rate_variation_trend(district_1, district_2)
+  def kindergarten_participation_rate_variation_trend(district1_name, district2_name)
     district_trend = Hash.new
 
-    district1 = district_1_kinder_participation(district_1)
-    district2 = district_2_kinder_state_participation(district_2)
+    district1 = fetch_district_kindergarten_participation(district1_name)
+    district2 = fetch_district_kindergarten_participation(district2_name)
 
     district1.each do |year, participation|
-      district_trend[year.to_i] = (district1[year].to_f/ district2[year].to_f).round(3)
+      district_trend[year.to_i] = (district1[year].to_f / district2[year].to_f).round(3)
     end
+
     district_trend
   end
 
-  def district_1_kinder_participation(district)
-    dr.find_by_name(district).enrollment.kindergarten_participation
+  def fetch_district_kindergarten_participation(district_name)
+    district = @district_repository.find_by_name(district_name)
+    district.enrollment_data.kindergarten_participation
   end
 
-  def district_2_kinder_state_participation(district)
-    dr.find_by_name(district[:against]).enrollment.kindergarten_participation
+  def does_kindergarten_participation_correlate_with_high_school_graduation(district1_name, district2_name = "COLORADO")
+    does_it_correlate = calculate_data_variation(district1_name, district2_name, :high_school_graduation_rates)
+    does_it_correlate.between?(0.6, 1.5)
   end
 
-  def kindergarten_participation_against_high_school_graduation(district, hash = {against: "COLORADO"})
-
-    kinder_variation = kindergarten_participation_rate_variation(district, hash)
-
-    grad_variation = high_school_graduation_variation(district, hash)
-
-    kinder_grad_variance = (kinder_variation/grad_variation).round(3)
-  end
-
-  def hs_1_grad_average(district)
-    dr.find_by_name(district).calculate_hs_grad_average
-  end
-
-  def hs_2_grad_average(district)
-    dr.find_by_name(district[:against]).calculate_hs_grad_average
-  end
-
-  def high_school_graduation_variation(district_1, district_2)
-    hs_1 = hs_1_grad_average(district_1)
-
-    hs_2 = hs_2_grad_average(district_2)
-
-    variation = (hs_1/hs_2).round(3)
-  end
-
-  def kindergarten_participation_correlates_with_high_school_graduation(for_hash, hash = {against: "COLORADO"})
-    if for_hash[:for] == 'STATEWIDE'
-      statewide(hash)
-    elsif for_hash[:across].class == Array
-      subset_of_districts(for_hash, hash)
-    else
-      does_it_correlate = high_school_graduation_variation(for_hash[:for], hash)
-      does_it_correlate.between?(0.6,1.5)
+  def does_kindergarten_participation_correlate_with_high_school_graduation_across_subset_of_districts(across_array, against_district)
+    x = across_array.map do |district|
+      does_kindergarten_participation_correlate_with_high_school_graduation(district, against_district)
     end
-  end
 
-  def subset_of_districts(for_hash, hash)
-    districts_to_test = for_hash[:across]
-    x = districts_to_test.map do |district|
-      variations = high_school_graduation_variation(district, hash)
-      variations.between?(0.6,1.5)
-    end
-    if x.count(true)/x.count > 0.700
+    if (x.count(true) / x.count) > 0.700
       true
     else
       false
     end
   end
 
-  def statewide(hash)
-    all_districts = dr.districts.map do |key, value|
-      district_in_string = value.name
-      high_school_graduation_variation(district_in_string, hash)
+  def does_statewide_kindergarten_participation_correlate_with_district_hs_graduation(district2)
+    does_correlate = false
+    all_districts = @district_repository.districts.map do |key, value|
+      district1 = value.name
+      calculate_data_variation(district1, district2, :high_school_graduation_rates)
     end
+
     if (all_districts.reduce(:+)/all_districts.count).round(3) >= 0.700
-      true
-    else
-      false
+      does_correlate = true
     end
+
+    does_correlate
   end
 end

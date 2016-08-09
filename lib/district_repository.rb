@@ -1,10 +1,8 @@
 require "csv"
-require "pry"
-require_relative "district"
 require_relative "enrollment_repository"
 
 class DistrictRepository
-  attr_reader :districts, :district_key, :er, :enrollment, :make_a_enrollment_repo, :send_enrollments_out
+  attr_reader :districts, :enrollment
 
   def initialize
     @districts = {}
@@ -14,47 +12,58 @@ class DistrictRepository
     pair = districts.detect do |_key, value|
       name.strip.upcase == value.name.upcase
     end
+
     pair && pair[1]
   end
 
-  def find_all_matching(name_fragment)
+  def find_all_districts_matching_name_fragment(name_fragment)
     matching = districts.select do |_key, value|
       value.name.upcase.include?(name_fragment.upcase)
     end
+
     matching.values
   end
 
-  def parser(contents)
+  def kindergarten_participation_access_hash
+    path = "data/Kindergartners in full-day program.csv"
+    { :kindergarten_participation => path }
+  end
+
+  def hs_graduation_rate_access_hash
+    path = "data/High school graduation rates.csv"
+    { :high_school_graduation_rates => path }
+  end
+
+  def create_enrollment_repository
+    file_paths = [kindergarten_participation_access_hash,
+                  hs_graduation_rate_access_hash]
+
+    @enrollment_repository = EnrollmentRepository.new
+    @enrollment_repository.load_enrollment_data(file_paths)
+  end
+
+  def load_district_data(csv_filepath)
+    create_enrollment_repository
+
+    contents = CSV.open(csv_filepath,
+                        headers: true,
+                        header_converters: :symbol)
+
+    # set class variable of type hash "districts" to
+    # key: district's name.to_sym,
+    # value: district object with name instance var set
     contents.each do |row|
       district = row[:location]
+
       districts[district.to_sym] = District.new(name: district)
     end
-  end
 
-  def send_enrollments_out
+    # iterate through each district and
+    # fetch its data from the enrollment repo
+    # set each object in the districts collection's enrollment_data
     districts.each do |district_name, district|
-      enrollment = er.find_by_name(district.name)
-      district.get_enrollment(enrollment)
-      district.enrollment
+      enrollment = @enrollment_repository.find_by_name(district.name)
+      district.send("enrollment_data=", enrollment)
     end
-  end
-
-  def make_a_enrollment_repo
-    @er = EnrollmentRepository.new
-      er.load_data({
-        :enrollment => {
-          :kindergarten => "test/fixtures/Kindergartners in full-day program.csv",
-          :high_school_graduation => "test/fixtures/High school graduation rates.csv"
-        }
-      })
-  end
-
-  def load_data(district_data)
-    kindergarten_csv = district_data.fetch(:enrollment).fetch(:kindergarten)
-    contents = CSV.open kindergarten_csv, headers: true,
-                                          header_converters: :symbol
-    parser(contents)
-    make_a_enrollment_repo
-    send_enrollments_out
   end
 end
